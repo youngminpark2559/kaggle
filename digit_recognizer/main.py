@@ -62,6 +62,8 @@ checkpoint_path="/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/digit_recognizer/trai
 
 # ======================================================================
 solver="NN"
+# solver="xgboost"
+# solver="ensenble"
 
 # ======================================================================
 # c train_d: train data csv file
@@ -71,6 +73,8 @@ train_d=util_files.load_csv_in_pd("./all/train.csv")
 test_d=util_files.load_csv_in_pd("./all/test.csv")
 
 train_X,train_y=util_common.prepare_dataset(train_d,test=False)
+# train_X=train_X[:300,:,:]
+# train_y=train_y[:300]
 # train_X (42000, 28, 28)
 # train_y (42000,)
 
@@ -79,49 +83,18 @@ test_X=util_common.prepare_dataset(test_d,test=True)
 
 # ======================================================================
 if solver=="NN":
-    predic_te=train.solve_by_CNN(train_X,train_y,test_X)
-    # print("predic_te",predic_te)
+    predic_te=train.solve_by_CNN(train_X/255.0,train_y,test_X/255.0)
+    create_res_csv(predic_te,test_X,solver)
 
-    test_X_df=pd.DataFrame(
-        test_X.reshape(test_X.shape[0],test_X.shape[1]*test_X.shape[2]))
-    # (28000,784)
+elif solver=="xgboost":
+    # test_y_pred=train.solve_by_xgboost(
+    #     train_X,train_y,test_X,val=True)
+    test_y_pred=train.solve_by_xgboost(
+        train_X,train_y,test_X,val=False)
+    util_files.create_res_csv(test_y_pred,test_X,solver)
 
-    # predic_te_df=pd.DataFrame(predic_te)
-    # (28000,)
+elif solver=="ensenble":
+    # test_y_pred=train.solve_by_ensenble(train_X,train_y,test_X,val=True)
+    test_y_pred=train.solve_by_ensenble(train_X,train_y,test_X,val=False)
+    util_files.create_res_csv(test_y_pred,test_X,solver)
 
-    test_X_df['label'] = predic_te
-
-    cols = test_X_df.columns.tolist()
-    cols.insert(0, cols.pop(-1))
-
-    test_X_df=test_X_df[cols]
-    # print("test_X_df",test_X_df.shape)
-    # test_X_df (28000, 785)
-
-    test_X_df.to_csv("processed.csv", sep=',')
-
-    # c w_te_img: width of test images
-    w_te_img=int(np.sqrt(test_X_df.shape[1]-1))
-    # print("w_te_img",w_te_img)
-    # w_te_img 28
-
-    # c te_labels: labels of test images
-    te_labels=np.array(test_X_df)[:,0].astype("uint8")
-    # c te_imgs: images of test images
-    te_imgs=np.array(test_X_df)[:,1:].reshape(-1,w_te_img,w_te_img)
-
-    # c o_p_t_img: one prediced test image
-    # for o_p_t_img in range(50):
-    #     plt.imshow(te_imgs[o_p_t_img,:,:],cmap="gray")
-    #     plt.title(te_labels[o_p_t_img])
-    #     plt.show()
-
-    s_sub=util_files.load_csv_in_pd("./all/sample_submission_original.csv")
-    # print('s_sub.loc[:,"Label"]',s_sub.loc[:,"Label"].shape)
-    # s_sub.loc[:,"Label"] (28000,)
-    
-    s_sub.loc[:,"Label"]=te_labels
-    s_sub.to_csv("./all/sample_submission2.csv", sep=',')
-
-    s_sub=util_files.load_csv_in_pd("./all/sample_submission2.csv")
-    print("s_sub",s_sub.head())

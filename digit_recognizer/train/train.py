@@ -13,6 +13,7 @@ from torchvision import datasets, models, transforms
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+from xgboost import XGBClassifier,XGBRegressor
 import argparse
 import sys
 import time
@@ -24,6 +25,13 @@ import natsort
 from PIL import Image
 from skimage.transform import resize
 import scipy.misc
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import VotingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 
 # ======================================================================
 currentdir="/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/digit_recognizer/train"
@@ -57,7 +65,7 @@ device=torch.device("cuda:0")
 checkpoint_path="/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/digit_recognizer/train/checkpoint.pth.tar"
 
 # ======================================================================
-epoch=100
+epoch=3000
 batch_size=100
 
 # ======================================================================
@@ -73,60 +81,60 @@ def solve_by_CNN(train_X,train_y,test_X):
 
     gen_net,optimizer=util_nets.net_generator()
 
-    # # Iterates all epochs
-    # for one_ep in range(epoch):
-    #     # Iterates all train images
-    #     for itr in range(0,n_ei,batch_size):
-    #         optimizer.zero_grad()
+    # Iterates all epochs
+    for one_ep in range(epoch):
+        # Iterates all train images
+        for itr in range(0,n_ei,batch_size):
+            optimizer.zero_grad()
 
-    #         # c one_b_tr_X: one batch of train X
-    #         one_b_tr_X=train_X[itr:itr+batch_size,:,:]
-    #         # c one_b_tr_y: one batch of train y
-    #         one_b_tr_y=train_y[itr:itr+batch_size]
-    #         # print("one_b_tr_X",one_b_tr_X.shape)
-    #         # print("one_b_tr_y",one_b_tr_y.shape)
+            # c one_b_tr_X: one batch of train X
+            one_b_tr_X=train_X[itr:itr+batch_size,:,:]
+            # c one_b_tr_y: one batch of train y
+            one_b_tr_y=train_y[itr:itr+batch_size]
+            # print("one_b_tr_X",one_b_tr_X.shape)
+            # print("one_b_tr_y",one_b_tr_y.shape)
 
-    #         # c train_X_tc: train X in torch
-    #         train_X_tc=Variable(torch.Tensor(one_b_tr_X).unsqueeze(1).to(device))
-    #         # print("train_X_tc",train_X_tc.shape)
-    #         # train_X_tc torch.Size([100, 1, 28, 28])
-    #         train_y_tc=Variable(torch.Tensor(one_b_tr_y).to(device))
-    #         # print("train_y_tc",train_y_tc.shape)
-    #         # train_y_tc torch.Size([100])
+            # c train_X_tc: train X in torch
+            train_X_tc=Variable(torch.Tensor(one_b_tr_X).unsqueeze(1).to(device))
+            # print("train_X_tc",train_X_tc.shape)
+            # train_X_tc torch.Size([100, 1, 28, 28])
+            train_y_tc=Variable(torch.Tensor(one_b_tr_y).to(device))
+            # print("train_y_tc",train_y_tc.shape)
+            # train_y_tc torch.Size([100])
 
-    #         # print("train_y_tc",train_y_tc)
-    #         # [1., 0., 1., 4., 0., 0., 7., 3., 5., 3., 8., 9., 1., 3., 3., 1., 2., 0.,
-    #         #  7., 5., 8., 6., 2., 0., 2., 3., 6., 9., 9., 7., 8., 9., 4., 9., 2., 1.,
-    #         #  3., 1., 1., 4., 9., 1., 4., 4., 2., 6., 3., 7., 7., 4., 7., 5., 1., 9.,
-    #         #  0., 2., 2., 3., 9., 1., 1., 1., 5., 0., 6., 3., 4., 8., 1., 0., 3., 9.,
-    #         #  6., 2., 6., 4., 7., 1., 4., 1., 5., 4., 8., 9., 2., 9., 9., 8., 9., 6.,
-    #         #  3., 6., 4., 6., 2., 9., 1., 2., 0., 5.]
+            # print("train_y_tc",train_y_tc)
+            # [1., 0., 1., 4., 0., 0., 7., 3., 5., 3., 8., 9., 1., 3., 3., 1., 2., 0.,
+            #  7., 5., 8., 6., 2., 0., 2., 3., 6., 9., 9., 7., 8., 9., 4., 9., 2., 1.,
+            #  3., 1., 1., 4., 9., 1., 4., 4., 2., 6., 3., 7., 7., 4., 7., 5., 1., 9.,
+            #  0., 2., 2., 3., 9., 1., 1., 1., 5., 0., 6., 3., 4., 8., 1., 0., 3., 9.,
+            #  6., 2., 6., 4., 7., 1., 4., 1., 5., 4., 8., 9., 2., 9., 9., 8., 9., 6.,
+            #  3., 6., 4., 6., 2., 9., 1., 2., 0., 5.]
 
-    #         # c preds: predictions
-    #         preds=gen_net(train_X_tc)
-    #         # print("preds",preds.shape)
-    #         # preds torch.Size([100, 10])
+            # c preds: predictions
+            preds=gen_net(train_X_tc)
+            # print("preds",preds.shape)
+            # preds torch.Size([100, 10])
 
-    #         pred_nums=torch.argmax(preds,dim=1)
-    #         # print("pred_nums",pred_nums.shape)
-    #         # pred_nums torch.Size([100])
-    #         # print("pred_nums",pred_nums)
+            pred_nums=torch.argmax(preds,dim=1)
+            # print("pred_nums",pred_nums.shape)
+            # pred_nums torch.Size([100])
+            # print("pred_nums",pred_nums)
 
-    #         loss_v=loss_functions.ce_loss(preds,train_y_tc.long())
-    #         # loss_v=loss_functions.L1loss(pred_nums,train_y_tc)
-    #         print("loss_v",loss_v)
-    #         # loss_v tensor(2.3192, device='cuda:0', grad_fn=<NllLossBackward>)
+            loss_v=loss_functions.ce_loss(preds,train_y_tc.long())
+            # loss_v=loss_functions.L1loss(pred_nums,train_y_tc)
+            print("loss_v",loss_v)
+            # loss_v tensor(2.3192, device='cuda:0', grad_fn=<NllLossBackward>)
 
-    #         loss_v.backward()
-    #         optimizer.step()
+            loss_v.backward()
+            optimizer.step()
 
-    # # Save trained parameters' values at end of all epochs
-    # util_nets.save_checkpoint(
-    #     {'state_dict': gen_net.state_dict(),
-    #      'optimizer' : optimizer.state_dict()}, 
-    #     checkpoint_path)
-    # print("Saved model at end of epoch")
-    # print("Train finished")
+    # Save trained parameters' values at end of all epochs
+    util_nets.save_checkpoint(
+        {'state_dict': gen_net.state_dict(),
+         'optimizer' : optimizer.state_dict()}, 
+        checkpoint_path)
+    print("Saved model at end of epoch")
+    print("Train finished")
 
     with torch.no_grad():
         # c n_eti: number of entire test images
@@ -158,3 +166,93 @@ def solve_by_CNN(train_X,train_y,test_X):
             predic_te.extend(pred_nums)
 
         return predic_te
+
+def solve_by_xgboost(train_X,train_y,test_X,val=False):
+    # c model: XGBClassifier model
+    model=XGBClassifier()
+
+    if val==True:
+        # Split data
+        train_X,val_X,train_y,val_y=util_common.split_dataset(train_X,train_y)
+
+        # Reshape data
+        rs_train_X,rs_test_X,rs_val_X=util_common.reshape_data_X(train_X,test_X,val_X)
+
+        # Train XGBClassifier model with train dataset
+        model.fit(rs_train_X,train_y)
+    
+        val_y_pred=model.predict(rs_val_X)
+
+        print("accuracy_score(val_y,val_y_pred)",accuracy_score(val_y,val_y_pred))
+        # accuracy_score(val_y,val_y_pred) 0.9292063492063493
+
+        test_y_pred=model.predict(rs_test_X)
+        # print("test_y_pred",test_y_pred.shape)
+        # test_y_pred (28000,)
+
+        return test_y_pred
+
+    else:
+        # Reshape data
+        rs_train_X,rs_test_X=util_common.reshape_data_X(train_X,test_X)
+
+        # Train XGBClassifier model with train dataset
+        model.fit(rs_train_X,train_y)
+    
+        test_y_pred=model.predict(rs_test_X)
+        # print("test_y_pred",test_y_pred.shape)
+        # test_y_pred (28000,)
+
+        return test_y_pred
+
+def solve_by_ensenble(train_X,train_y,test_X,val=False):
+    log_clf=LogisticRegression(random_state=42)
+    rnd_clf=RandomForestClassifier(random_state=42)
+    svm_clf=SVC(probability=True,random_state=42)
+
+    voting_clf=VotingClassifier(
+        estimators=[('lr',log_clf),('rf',rnd_clf),('svc',svm_clf)],
+        # voting='soft')
+        voting='hard')
+
+    if val==True:
+        # Split data
+        train_X,val_X,train_y,val_y=util_common.split_dataset(train_X,train_y)
+        
+        # Reshape data
+        rs_train_X,rs_test_X,rs_val_X=util_common.reshape_data_X(train_X,test_X,val_X)
+
+        # Train XGBClassifier model with train dataset
+        voting_clf.fit(rs_train_X,train_y)
+
+        acc_sco=[]
+        for clf in (log_clf, rnd_clf, svm_clf, voting_clf):
+            clf.fit(rs_train_X,train_y)
+            val_y_pred=clf.predict(rs_val_X)
+            acc_sco.append(accuracy_score(val_y,val_y_pred))
+            # print(clf.__class__.__name__) 
+        print("acc_sco",acc_sco)
+    
+        val_y_pred=voting_clf.predict(rs_val_X)
+
+        print("accuracy_score(val_y,val_y_pred)",accuracy_score(val_y,val_y_pred))
+        # accuracy_score(val_y,val_y_pred) 0.9292063492063493
+
+        test_y_pred=voting_clf.predict(rs_test_X)
+        # print("test_y_pred",test_y_pred.shape)
+        # test_y_pred (28000,)
+
+        return test_y_pred
+
+    else:
+        # Reshape data
+        rs_train_X,rs_test_X=util_common.reshape_data_X(train_X,test_X)
+
+        # Train XGBClassifier model with train dataset
+        voting_clf.fit(rs_train_X,train_y)
+    
+        test_y_pred=voting_clf.predict(rs_test_X)
+        # print("test_y_pred",test_y_pred.shape)
+        # test_y_pred (28000,)
+
+        return test_y_pred

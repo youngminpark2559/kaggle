@@ -1,3 +1,4 @@
+from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -31,7 +32,7 @@ def prepare_dataset(pd_csv_f,test=False):
         # w_img 28
         
         # c train_X: reshaped image as X of train dataset
-        train_X=img.reshape((-1,w_img,w_img))/255.0
+        train_X=img.reshape((-1,w_img,w_img))
         # print("train_X",train_X.shape)
         # train_X (42000, 28, 28)
 
@@ -47,7 +48,7 @@ def prepare_dataset(pd_csv_f,test=False):
         # w_img 28
         
         # c train_X: reshaped image as X of test dataset
-        test_X=np_arr.reshape((-1,w_img,w_img))/255.0
+        test_X=np_arr.reshape((-1,w_img,w_img))
         # print("test_X",test_X.shape)
         # test_X (28000, 28, 28)
 
@@ -55,3 +56,18 @@ def prepare_dataset(pd_csv_f,test=False):
 
         return test_X
 
+def split_dataset(train_X,train_y):
+    train_X,val_X,train_y,val_y=train_test_split(
+        train_X,train_y,test_size=0.3,random_state=42)
+    return train_X,val_X,train_y,val_y
+
+def reshape_data_X(train_X,test_X,val_X=None):
+    if val_X!=None:
+        rs_train_X=train_X.reshape(train_X.shape[0],-1)
+        rs_test_X=test_X.reshape(test_X.shape[0],-1)
+        rs_val_X=val_X.reshape(val_X.shape[0],-1)
+        return rs_train_X,rs_test_X,rs_val_X
+    else:
+        rs_train_X=train_X.reshape(train_X.shape[0],-1)
+        rs_test_X=test_X.reshape(test_X.shape[0],-1)
+        return rs_train_X,rs_test_X

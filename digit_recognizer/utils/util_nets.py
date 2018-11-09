@@ -82,10 +82,10 @@ def net_generator():
     print_network(gen_net)
 
     # --------------------------------------------------
-    checkpoint = torch.load(
-        "/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/digit_recognizer/train/checkpoint.pth.tar")
+    # checkpoint = torch.load(
+    #     "/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/digit_recognizer/train/checkpoint.pth.tar")
 
-    gen_net.load_state_dict(checkpoint['state_dict'])
-    optimizer.load_state_dict(checkpoint['optimizer'])
+    # gen_net.load_state_dict(checkpoint['state_dict'])
+    # optimizer.load_state_dict(checkpoint['optimizer'])
     
     return gen_net,optimizer
