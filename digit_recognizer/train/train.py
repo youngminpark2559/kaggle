@@ -1,0 +1,160 @@
+# source activate py36gputorch041
+# cd /mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/digit_recognizer/train/
+# rm e.l && python train.py 2>&1 | tee -a e.l && code e.l
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.autograd import Variable
+from torch.utils.data import Dataset, DataLoader
+import torchvision
+import torchvision.transforms as transforms
+from torchvision import datasets, models, transforms
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+import argparse
+import sys
+import time
+import os
+import copy
+import glob
+import cv2
+import natsort 
+from PIL import Image
+from skimage.transform import resize
+import scipy.misc
+
+# ======================================================================
+currentdir="/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/digit_recognizer/train"
+
+network_dir="/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/digit_recognizer/networks"
+sys.path.insert(0,network_dir)
+
+loss_function_dir="/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/digit_recognizer/loss_functions"
+sys.path.insert(0,loss_function_dir)
+
+utils_dir="/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/digit_recognizer/utils"
+sys.path.insert(0,utils_dir)
+
+# import networks as networks
+import loss_functions as loss_functions
+
+import util_common as util_common
+# import util_image as util_image
+import util_nets as util_nets
+
+# ======================================================================
+if torch.cuda.is_available():
+    device="cuda:0"
+else:
+    device="cpu"
+
+# device=torch.device(device)
+device=torch.device("cuda:0")
+
+# ======================================================================
+checkpoint_path="/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/digit_recognizer/train/checkpoint.pth.tar"
+
+# ======================================================================
+epoch=100
+batch_size=100
+
+# ======================================================================
+def solve_by_CNN(train_X,train_y,test_X):
+    # c n_ei: number of entire train images
+    n_ei=int(train_X.shape[0])
+    # print("n_ei",n_ei)
+    # n_ei 42000
+
+    iteration=int(n_ei/batch_size)
+    # print("iteration",iteration)
+    # iteration 420
+
+    gen_net,optimizer=util_nets.net_generator()
+
+    # # Iterates all epochs
+    # for one_ep in range(epoch):
+    #     # Iterates all train images
+    #     for itr in range(0,n_ei,batch_size):
+    #         optimizer.zero_grad()
+
+    #         # c one_b_tr_X: one batch of train X
+    #         one_b_tr_X=train_X[itr:itr+batch_size,:,:]
+    #         # c one_b_tr_y: one batch of train y
+    #         one_b_tr_y=train_y[itr:itr+batch_size]
+    #         # print("one_b_tr_X",one_b_tr_X.shape)
+    #         # print("one_b_tr_y",one_b_tr_y.shape)
+
+    #         # c train_X_tc: train X in torch
+    #         train_X_tc=Variable(torch.Tensor(one_b_tr_X).unsqueeze(1).to(device))
+    #         # print("train_X_tc",train_X_tc.shape)
+    #         # train_X_tc torch.Size([100, 1, 28, 28])
+    #         train_y_tc=Variable(torch.Tensor(one_b_tr_y).to(device))
+    #         # print("train_y_tc",train_y_tc.shape)
+    #         # train_y_tc torch.Size([100])
+
+    #         # print("train_y_tc",train_y_tc)
+    #         # [1., 0., 1., 4., 0., 0., 7., 3., 5., 3., 8., 9., 1., 3., 3., 1., 2., 0.,
+    #         #  7., 5., 8., 6., 2., 0., 2., 3., 6., 9., 9., 7., 8., 9., 4., 9., 2., 1.,
+    #         #  3., 1., 1., 4., 9., 1., 4., 4., 2., 6., 3., 7., 7., 4., 7., 5., 1., 9.,
+    #         #  0., 2., 2., 3., 9., 1., 1., 1., 5., 0., 6., 3., 4., 8., 1., 0., 3., 9.,
+    #         #  6., 2., 6., 4., 7., 1., 4., 1., 5., 4., 8., 9., 2., 9., 9., 8., 9., 6.,
+    #         #  3., 6., 4., 6., 2., 9., 1., 2., 0., 5.]
+
+    #         # c preds: predictions
+    #         preds=gen_net(train_X_tc)
+    #         # print("preds",preds.shape)
+    #         # preds torch.Size([100, 10])
+
+    #         pred_nums=torch.argmax(preds,dim=1)
+    #         # print("pred_nums",pred_nums.shape)
+    #         # pred_nums torch.Size([100])
+    #         # print("pred_nums",pred_nums)
+
+    #         loss_v=loss_functions.ce_loss(preds,train_y_tc.long())
+    #         # loss_v=loss_functions.L1loss(pred_nums,train_y_tc)
+    #         print("loss_v",loss_v)
+    #         # loss_v tensor(2.3192, device='cuda:0', grad_fn=<NllLossBackward>)
+
+    #         loss_v.backward()
+    #         optimizer.step()
+
+    # # Save trained parameters' values at end of all epochs
+    # util_nets.save_checkpoint(
+    #     {'state_dict': gen_net.state_dict(),
+    #      'optimizer' : optimizer.state_dict()}, 
+    #     checkpoint_path)
+    # print("Saved model at end of epoch")
+    # print("Train finished")
+
+    with torch.no_grad():
+        # c n_eti: number of entire test images
+        n_eti=int(test_X.shape[0])
+        # 28000
+
+        # c iteration_te: iteration for test data
+        iteration_te=int(n_eti/batch_size)
+        # 280
+
+        predic_te=[]
+        for itr_te in range(0,n_eti,batch_size):
+            one_b_te_X=test_X[itr_te:itr_te+batch_size,:,:]
+            # print("one_b_te_X",one_b_te_X.shape)
+            # one_b_te_X (100, 28, 28)
+
+            test_X_tc=Variable(torch.Tensor(one_b_te_X).unsqueeze(1).to(device))
+            # (100, 1, 28, 28)
+
+            preds_te=gen_net(test_X_tc)
+            
+            p_te_np=preds_te.detach().cpu().numpy()
+            # print("p_te_np",p_te_np)
+
+            pred_nums=np.argmax(p_te_np,axis=1)
+            # print("pred_nums",pred_nums.shape)
+            # print("pred_nums",pred_nums)
+
+            predic_te.extend(pred_nums)
+
+        return predic_te
