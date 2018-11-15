@@ -40,7 +40,6 @@ sys.path.insert(0,utils_dir)
 train_dir="/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/tgs-salt-identification-challenge/train"
 sys.path.insert(0,train_dir)
 
-# import networks as networks
 import loss_functions as loss_functions
 
 import util_files as util_files
@@ -63,8 +62,6 @@ checkpoint_path="/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/tgs-salt-identificati
 
 # ======================================================================
 solver="NN"
-# solver="xgboost"
-# solver="ensenble"
 
 # ======================================================================
 # Inspect data
@@ -92,36 +89,13 @@ train_ids=util_files.get_data_ids(path_train)
 
 path_test="/mnt/1T-5e7/mycodehtml/prac_data_s/kaggle/tgs-salt-identification-challenge/input/test"
 test_ids=util_files.get_data_ids(path_test)
-# print("train_ids",train_ids)
-# print("test_ids",test_ids)
-# ['9e9ce2e1ce.png', '0df9f16bc9.png', ...]
-# ['a4b5244207.png', 'b46364e795.png', ...]
-
-# print("tr_imgs_sh",tr_imgs_sh)
-# tr_imgs_sh [(101, 101, 3), (101, 101, 3), (101, 101, 3), (101, 101, 3), (101, 101, 3)]
 
 # Create placeholder array which you will use after resize (101,101,3) image to (128,128,1) image
 X_train=util_common.create_ph_arr((len(train_ids),128,128,1),"uint8")
-# X_train (4000, 101, 101, 3)
 Y_train=util_common.create_ph_arr((len(train_ids),128,128,1),"bool")
 Y_train=Y_train.astype("float32")
 
 X_train,Y_train=util_common.rs_tr_img(train_ids,path_train,X_train,Y_train)
-# print("X_train",X_train.shape)
-# print("Y_train",Y_train.shape)
-# X_train (4000, 128, 128, 1)
-# Y_train (4000, 128, 128, 1)
-# print("Y_train",Y_train)
-# print("Y_train",Y_train)
-
-# Check if training data looks all right
-# ix = random.randint(0, len(train_ids))
-# plt.imshow(np.dstack((X_train[ix],X_train[ix],X_train[ix])))
-# plt.show()
-# tmp = np.squeeze(Y_train[ix]).astype(np.float32)
-# plt.imshow(np.dstack((tmp,tmp,tmp)))
-# plt.show()
-
 
 X_test=np.zeros((len(test_ids),128,128,1),dtype=np.uint8)
 
@@ -132,31 +106,6 @@ for n,id_ in enumerate(test_ids):
     te_x=resize(te_img,(128,128,1),mode='constant',preserve_range=True)
     X_test[n]=te_x
 
-# Train Model
-# Our task, just like segmentation task for nuclei, 
-# is evaluated on mean IoU metric. 
-# This one isn't in keras, but obviously, we're stealing this one too from Ketil
-
-
-# U-Net is looking like Auto-Encoder with shortcuts
-# We're also sprinkling in some earlystopping to prevent overfitting. 
-
 # ======================================================================
 if solver=="NN":
     predic_te=train.solve_by_CNN(X_train/255.0,Y_train/255.0,X_test/255.0)
-
-
-    # util_files.create_res_csv(predic_te,test_X,solver)
-
-elif solver=="xgboost":
-    # test_y_pred=train.solve_by_xgboost(
-    #     train_X,train_y,test_X,val=True)
-    test_y_pred=train.solve_by_xgboost(
-        train_X,train_y,test_X,val=False)
-    util_files.create_res_csv(test_y_pred,test_X,solver)
-
-elif solver=="ensenble":
-    # test_y_pred=train.solve_by_ensenble(train_X,train_y,test_X,val=True)
-    test_y_pred=train.solve_by_ensenble(train_X,train_y,test_X,val=False)
-    util_files.create_res_csv(test_y_pred,test_X,solver)
-
