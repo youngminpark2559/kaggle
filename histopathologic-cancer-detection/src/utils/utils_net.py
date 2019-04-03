@@ -24,10 +24,6 @@ import torch
 # ================================================================================
 from src.networks import networks as networks
 
-from src.utils import utils_custom_lr_scheduler as utils_custom_lr_scheduler
-from src.utils import utils_adamw_plus_cosine_adamw as utils_adamw_plus_cosine_adamw
-from src.utils import utils_adamw_plus_cosine_cosine as utils_adamw_plus_cosine_cosine
-
 # ================================================================================
 if torch.cuda.is_available():
   device="cuda:0"

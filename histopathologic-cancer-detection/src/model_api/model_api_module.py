@@ -30,9 +30,9 @@ class Model_API_class():
     if self.args.train_method=="train_by_transfer_learning_using_resnet":
       # Create network
       # gen_net=networks.Pretrained_ResNet152().cuda()
-      gen_net=networks.Pretrained_ResNet50().cuda()
+      # gen_net=networks.Pretrained_ResNet50().cuda()
       # gen_net=networks.Pretrained_VGG16().cuda()
-      # gen_net=networks.Custom_Net().cuda()
+      gen_net=networks.Custom_Net().cuda()
       # Configure multiple GPUs
       if self.args.use_multi_gpu=="True":
         num_gpu=torch.cuda.device_count()

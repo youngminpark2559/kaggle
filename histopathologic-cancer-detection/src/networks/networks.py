@@ -730,12 +730,12 @@ class Custom_Net(nn.Module):
     super(Custom_Net,self).__init__()
 
     self.conv_1=nn.Sequential(
-        nn.Conv2d(3,100,kernel_size=3,padding=0),
+        nn.Conv2d(3,100,kernel_size=3,padding=1),
         nn.LeakyReLU(0.2),)
     self.conv_1.apply(init_weights)
 
     self.conv_2=nn.Sequential(
-        nn.Conv2d(100,100,kernel_size=3,padding=0),
+        nn.Conv2d(100,100,kernel_size=3,padding=1),
         nn.LeakyReLU(0.2),)
     self.conv_2.apply(init_weights)
 
@@ -750,12 +750,12 @@ class Custom_Net(nn.Module):
 
     # ================================================================================
     self.conv_4=nn.Sequential(
-        nn.Conv2d(256,256,kernel_size=3,padding=0),
+        nn.Conv2d(256,256,kernel_size=3,padding=1),
         nn.LeakyReLU(0.2),)
     self.conv_4.apply(init_weights)
 
     self.conv_5=nn.Sequential(
-        nn.Conv2d(256,256,kernel_size=3,padding=0),
+        nn.Conv2d(256,256,kernel_size=3,padding=1),
         nn.LeakyReLU(0.2),)
     self.conv_5.apply(init_weights)
 
@@ -770,12 +770,12 @@ class Custom_Net(nn.Module):
     
     # ================================================================================
     self.conv_7=nn.Sequential(
-        nn.Conv2d(256,256,kernel_size=3,padding=0),
+        nn.Conv2d(256,256,kernel_size=3,padding=1),
         nn.LeakyReLU(0.2),)
     self.conv_7.apply(init_weights)
 
     self.conv_8=nn.Sequential(
-        nn.Conv2d(256,256,kernel_size=3,padding=0),
+        nn.Conv2d(256,256,kernel_size=3,padding=1),
         nn.LeakyReLU(0.2),)
     self.conv_8.apply(init_weights)
 
@@ -790,7 +790,7 @@ class Custom_Net(nn.Module):
     
     # ================================================================================
     self.conv_10=nn.Sequential(
-        nn.Conv2d(512,512,kernel_size=3,padding=0),
+        nn.Conv2d(512,512,kernel_size=3,padding=1),
         nn.LeakyReLU(0.2),)
     self.conv_10.apply(init_weights)
 

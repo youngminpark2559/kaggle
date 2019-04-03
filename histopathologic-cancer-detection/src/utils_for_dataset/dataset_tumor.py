@@ -12,7 +12,6 @@ import torch.utils.data as data
 # @ src/utils
 from src.utils import utils_common as utils_common
 from src.utils import utils_image as utils_image
-from src.utils import utils_data_for_dataset_class as utils_data_for_dataset_class
 
 class Dataset_Tumor(data.Dataset):
   def __init__(self,txt_containing_paths,txt_containing_labels,is_train,args):
@@ -24,10 +23,41 @@ class Dataset_Tumor(data.Dataset):
     self.args=args
     # Is train in this step of creating dataset?
     self.is_train=is_train
-    # c list_containing_paths: list which contains paths of images
-    list_containing_paths,num_imgs=\
-      utils_common.return_path_list_from_txt(txt_containing_paths)
-    # print("self.list_containing_paths,",self.list_containing_paths)
+    # c label_tumor: label to images which is loaded from CSV file
+    label_tumor=pd.read_csv(txt_containing_labels,encoding='utf8')
+    # c label_tumor_sorted: sorted one by ascending ID
+    label_tumor_sorted=label_tumor.sort_values(by=["id"], ascending=True)
+    # print("label_tumor_sorted",label_tumor_sorted.head())
+    #                                               id  label
+    # 151577  00001b2b5609af42ab0ab276dd4cd41c3e7745b5      1
+    # 16166   000020de2aa6193f4c160e398a8edea95b1da598      0
+    # 87832   00004aab08381d25d315384d646f5ce413ea24b1      0
+    # 69359   0000d563d5cfafc4e68acb7c9829258a298d9b6a      0
+    # 128953  0000da768d06b879e5754c43e2298ce48726f722      1
+    # c label_tumor_sorted_list: label in list
+    label_tumor_sorted_list=label_tumor_sorted.iloc[:,:].values.tolist()
+    # print("label_tumor_sorted_list",label_tumor_sorted_list)
+    # [['00001b2b5609af42ab0ab276dd4cd41c3e7745b5', 1], 
+    #  ['000020de2aa6193f4c160e398a8edea95b1da598', 0],
+    #  ...
+    trn_imgs_base_fn_list=label_tumor_sorted.iloc[:,0].values.tolist()
+    # print("trn_imgs_base_fn_list",trn_imgs_base_fn_list)
+    # print("self.list_containing_paths,",list_containing_paths)
+    # ['004af46758d924fc205df41b4563478a50385825', 
+    #  '00b25ec6689474e5d5a471e50094ccf529e4173d',
+    # @ Create text file which contains paths of train images
+    list_containing_paths=[]
+    for one_fn in trn_imgs_base_fn_list:
+      path_of_one_file=args.text_file_for_paths_dir+"/train"+"/"+one_fn+".tif"
+      # print("path_of_one_file",path_of_one_file)
+      # /mnt/1T-5e7/mycodehtml/bio_health/Kaggle_histopathologic-cancer-detection/Data/train/004af46758d924fc205df41b4563478a50385825.tif
+      list_containing_paths.append(path_of_one_file)
+    num_imgs=len(list_containing_paths)
+    # print("num_imgs",num_imgs)
+    # 1000
+    # # c list_containing_paths: list which contains paths of images
+    # list_containing_paths,num_imgs=\
+    #   utils_common.return_path_list_from_txt(txt_containing_paths)
     # ['/mnt/1T-5e7/mycodehtml/bio_health/Kaggle_histopathologic-cancer-detection/Data/train/00001b2b5609af42ab0ab276dd4cd41c3e7745b5.tif\n',
     #  ...
     # print("self.num_imgs",self.num_imgs)
@@ -48,23 +78,6 @@ class Dataset_Tumor(data.Dataset):
     # print("self.num_imgs_of_path_test",self.num_imgs_of_path_test)
     # 198022
     # 22003
-    # c label_tumor: label to images which is loaded from CSV file
-    label_tumor=pd.read_csv(txt_containing_labels,encoding='utf8')
-    # c label_tumor_sorted: sorted one by ascending ID
-    label_tumor_sorted=label_tumor.sort_values(by=["id"], ascending=True)
-    # print("label_tumor_sorted",label_tumor_sorted.head())
-    #                                               id  label
-    # 151577  00001b2b5609af42ab0ab276dd4cd41c3e7745b5      1
-    # 16166   000020de2aa6193f4c160e398a8edea95b1da598      0
-    # 87832   00004aab08381d25d315384d646f5ce413ea24b1      0
-    # 69359   0000d563d5cfafc4e68acb7c9829258a298d9b6a      0
-    # 128953  0000da768d06b879e5754c43e2298ce48726f722      1
-    # c label_tumor_sorted_list: label in list
-    label_tumor_sorted_list=label_tumor_sorted.iloc[:,:].values.tolist()
-    # print("label_tumor_sorted_list",label_tumor_sorted_list)
-    # [['00001b2b5609af42ab0ab276dd4cd41c3e7745b5', 1], 
-    #  ['000020de2aa6193f4c160e398a8edea95b1da598', 0],
-    #  ...
     # c label_tumor_trn: labels for train images
     label_tumor_trn=label_tumor_sorted_list[:ninety_percent_portion]
     # c label_tumor_test: labels for test images
