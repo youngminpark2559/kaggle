@@ -19,7 +19,11 @@ https://youngminpark2559.github.io/ml_cv_p/CBAM_Convolutional_Block_Attention_Mo
 - Metrics to inspect dataset before training and to evaluate performance of the deep learning model after training
 Accuracy, Precision, Recall, ROC Curve, F1 Score, etc  
 If you want to briefly see the concept of metric, you can check this out  
+1. For metrics for regression (L1 norm, L2 norm, etc), For metrics for classification (accuracy, precision, recall)  
 https://youngminpark2559.github.io/mltheory/terry/YouTube/001_005_Metrics_for_deep_learrning_classification_Accuracy_Precision_Recall.html
+2. Supplementary for accuracy, precision, recall. And for ROC curve, AUC  
+https://youngminpark2559.github.io/mltheory/terry/YouTube/001_006_ROC_curve_AUC_Precision_Recall.html
+
 
 #### Train information
 - Epoch: 
