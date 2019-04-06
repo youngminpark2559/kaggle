@@ -11,12 +11,15 @@
 Then, you will easily upload split files onto Google colaboratory as well as you will easily access each directory to see the image files
 - Train on Google colaboratory with Google drive storing entire pathology dataset
 - Grad CAM to see where neural network pays attention to by analyzing gradient values of last conv layer  
-([You can check my summaries and comments if you want to briefly see it](https://youngminpark2559.github.io/ml_cv_p/Grad-CAM_Visual_Explanations_from_Deep_Networks_via_Gradient-based_Localization/summaries_and_notes.html))
+You can check my summaries and comments if you want to briefly see it  
+https://youngminpark2559.github.io/ml_cv_p/Grad-CAM_Visual_Explanations_from_Deep_Networks_via_Gradient-based_Localization/summaries_and_notes.html
 - CBAM attention modules which help the neural network to see better place (where) and better things (what) for target class  
-([You can check my summaries and comments if you want to briefly see it](https://youngminpark2559.github.io/ml_cv_p/CBAM_Convolutional_Block_Attention_Module/paper_summary.html))
+You can check my summaries and comments if you want to briefly see it  
+https://youngminpark2559.github.io/ml_cv_p/CBAM_Convolutional_Block_Attention_Module/paper_summary.html
 - Metrics to inspect dataset before training and to evaluate performance of the deep learning model after training
 Accuracy, Precision, Recall, ROC Curve, F1 Score, etc  
-If you want to briefly see the concept of metric, you can check [this](https://youngminpark2559.github.io/mltheory/terry/YouTube/001_005_Metrics_for_deep_learrning_classification_Accuracy_Precision_Recall.html) out
+If you want to briefly see the concept of metric, you can check this out  
+https://youngminpark2559.github.io/mltheory/terry/YouTube/001_005_Metrics_for_deep_learrning_classification_Accuracy_Precision_Recall.html
 
 #### Train information
 - Epoch: 
@@ -45,5 +48,6 @@ https://github.com/Jongchan/attention-module
 - 
 
 #### Backpropagation, autograd, gradient in PyTorch
-- If you want to read above topics which are relevant to Grad CAM which deals with gradient values,
-check [this](https://youngminpark2559.github.io/prac_ml/pytorch/kykim/002_autograd_and_Variable.html) out
+- If you want to read above topics which are relevant to Grad CAM which deals with gradient values, check this out
+https://youngminpark2559.github.io/prac_ml/pytorch/kykim/002_autograd_and_Variable.html
+
