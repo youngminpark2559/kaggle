@@ -24,10 +24,10 @@ https://youngminpark2559.github.io/mltheory/terry/YouTube/001_005_Metrics_for_de
 2. Supplementary for accuracy, precision, recall. And for ROC curve, AUC  
 https://youngminpark2559.github.io/mltheory/terry/YouTube/001_006_ROC_curve_AUC_Precision_Recall.html
 
-
 #### Train information
 - Epoch: 
-- Batch size: 
+- Batch size: 100 (processed by K80 11GB GPU memory of Google colaboratory notebook)
+- Weight on loss value: 10.0 (final_loss_value=10.0*loss_value)
 - Train dataset split: train 90%, validation 10%
 - Input image size: center (48,48,3) from original (96,96,3)
 - Tested network
