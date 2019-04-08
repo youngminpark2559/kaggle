@@ -6,11 +6,11 @@
 # rm e.l && python main.py \
 # --train_mode=True \
 # --train_method="train_by_transfer_learning_using_resnet" \
-# --use_saved_model_for_continuous_train=False \
+# --use_saved_model_for_continuous_train=True \
 # --model_save_dir="./ckpt" \
 # --model_file_name_when_saving_and_loading_model="/tumor_pretrained_resnet50_cbam.pth" \
-# --epoch=5 \
-# --batch_size=40 \
+# --epoch=9 \
+# --batch_size=30 \
 # --use_augmentor=True \
 # --use_integrated_decoders=True \
 # --use_loss_display=True \
@@ -20,8 +20,8 @@
 # --measure_train_time=True \
 # --optimizer=None \
 # --network_type="ResNet50_CBAM" \
-# --leapping_term_when_displaying_loss=10 \
-# --leapping_term_when_saving_model_after_batch=10 \
+# --leapping_term_when_displaying_loss=1000 \
+# --leapping_term_when_saving_model_after_batch=1000 \
 # 2>&1 | tee -a e.l && code e.l
 
 # dir_where_text_file_for_image_paths_is_in="./../Data"

@@ -61,3 +61,22 @@ https://github.com/Jongchan/attention-module
 #### Backpropagation, autograd, gradient in PyTorch
 - If you want to read above topics which are relevant to Grad CAM which deals with gradient values, check this out
 https://youngminpark2559.github.io/prac_ml/pytorch/kykim/002_autograd_and_Variable.html
+
+
+
+
+
+Input size should be large. feature extraction.
+
+Not. figure. but should kepp in mind. train with partial dataset.
+
+
+Pretrain not good.
+
+
+learning rate start 0.001
+update 5 times.
+
+latency too high, local 6GB gpu over 15 times (literally extremly and incomparable) faster
+for example, start training 0 batch 10 batch 
+

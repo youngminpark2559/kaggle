@@ -26,8 +26,3 @@ def return_argument():
     use_multi_gpu='False',
     use_saved_model_for_continuous_train='False')
   return args
-
-
-
-
-  

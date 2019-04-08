@@ -48,7 +48,7 @@ def use_augmetor_for_tumor_data(dataset_bs_paths,args):
     dataset_bs_paths=[]
     for x in paths_of_imgs:
       loaded_img=Image.open(x.replace("\n",""))
-      # WHen you don't use gt image
+      # When you don't use gt image
       loaded_img=np.array(loaded_img)
       dataset_bs_paths.append([loaded_img])
     # print("dataset_bs_paths",len(dataset_bs_paths))
@@ -155,7 +155,7 @@ def use_augmetor_for_tumor_data(dataset_bs_paths,args):
       # ================================================================================
       # @ Resize image to (224,224,3)
 
-      # one_img=resize(one_img,(224,224))
+      one_img=resize(one_img,(224,224))
       # print("one_img",one_img.shape)
       # (224, 224, 3)
 
@@ -169,7 +169,7 @@ def use_augmetor_for_tumor_data(dataset_bs_paths,args):
     # ================================================================================
     # @ Center crop
 
-    after_aug_imgs_np=after_aug_imgs_np[:,24:72,24:72,:]
+    # after_aug_imgs_np=after_aug_imgs_np[:,24:72,24:72,:]
     # print("after_aug_imgs_np",after_aug_imgs_np.shape)
     # (10, 48, 48, 3)
 

@@ -17,7 +17,7 @@ class Model_API_class():
 
     # ================================================================================
     # Configure member variables
-    self.lr=0.01
+    self.lr=0.0001
     self.weight_decay=0.1
     self.args=args
     self.gen_net,self.optimizer=self.net_generator()

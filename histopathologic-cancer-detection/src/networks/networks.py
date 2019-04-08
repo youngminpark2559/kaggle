@@ -653,7 +653,7 @@ class Pretrained_ResNet50(nn.Module):
 
     # ================================================================================
     # print("self.resnet50",dir(self.resnet50))
-    self.resnet50.fc=nn.Linear(in_features=2048,out_features=2,bias=True)
+    self.resnet50.fc=nn.Linear(in_features=2048,out_features=1,bias=True)
 
     # ================================================================================
     # Check edited model
@@ -663,7 +663,7 @@ class Pretrained_ResNet50(nn.Module):
     # endregion 
 
     # ================================================================================
-    self.softmax_layer=nn.Softmax(dim=None)
+    # self.softmax_layer=nn.Softmax(dim=None)
 
   def forward(self,x):
     # print("x p",x.shape)
@@ -672,7 +672,7 @@ class Pretrained_ResNet50(nn.Module):
     x=self.resnet50(x)
     # print("x p",x.shape)
 
-    x=self.softmax_layer(x)
+    # x=self.softmax_layer(x)
 
     return x
 
@@ -709,7 +709,7 @@ class Pretrained_VGG16(nn.Module):
     # print("classifier_list",classifier_list)
     # [Linear(in_features=25088, out_features=4096, bias=True), ReLU(inplace), Dropout(p=0.5), Linear(in_features=4096, out_features=4096, bias=True), ReLU(inplace), Dropout(p=0.5), Linear(in_features=4096, out_features=1000, bias=True)]
 
-    classifier_list.append(nn.Linear(1000,2))
+    classifier_list.append(nn.Linear(1000,1))
 
     self.vgg16.classifier=nn.Sequential(*classifier_list)
     
@@ -725,7 +725,7 @@ class Pretrained_VGG16(nn.Module):
     x=self.vgg16(x)
     # print("x p",x.shape)
 
-    x=self.softmax_layer(x)
+    # x=self.softmax_layer(x)
 
     return x
 
@@ -812,7 +812,7 @@ class Custom_Net(nn.Module):
         nn.Linear(1024,512,bias=True),
         nn.ReLU(),
         nn.Dropout(p=0.5),
-        nn.Linear(512,2,bias=True))
+        nn.Linear(512,1,bias=True))
     self.fc.apply(init_weights)
 
     # ================================================================================
@@ -855,7 +855,7 @@ class Custom_Net(nn.Module):
 
     out=self.fc(o_conv11_flat)
 
-    out=self.softmax_layer(out)
+    # out=self.softmax_layer(out)
     # print("out",out.shape)
     # torch.Size([11, 2])
 
@@ -913,8 +913,10 @@ class ResNet50_CBAM(nn.Module):
         super(ResNet50_CBAM, self).__init__()
 
         self.inplanes = 64
-        self.network_type = network_type
+        # self.network_type = network_type
+        self.network_type = "ImageNet"
         self.block=Bottleneck
+        network_type="ImageNet"
         
         # different model config between ImageNet and CIFAR 
         if network_type == "ImageNet":

@@ -75,10 +75,10 @@ def train(args):
     # @ Configure learning rate scheduler
     # Update learning rate 4 times during entire epochs
     # For example, if you use 10 epochs, int(10/4), 1 2 / 3 4 / 5 6 / 7 8 / 9 10
+    # 0-1 epochs: 0.001 -> 2-3 epochs: 0.0001 -> 4-5 epochs: 0.00001 -> 5-6 epochs: 0.000001
 
     scheduler=StepLR(model_api_instance.optimizer,step_size=int(epoch/4),gamma=0.1)
-    # 0-1 epochs: 0.01 -> 2-3 epochs: 0.001 -> 4-5 epochs: 0.0001 -> 5-6 epochs: 0.00001
-      
+
     # ================================================================================
     # @ Test Grad CAM
     # imgs=["/mnt/1T-5e7/mycodehtml/bio_health/Kaggle_histopathologic-cancer-detection/Data/test/ffcaef8b9006b4d0b128328e6df6e4d139d3c40a.tif",
@@ -322,13 +322,15 @@ def train(args):
           # print("one_loaded_img",one_loaded_img.shape)
           # (96, 96, 3)
 
+          one_loaded_img=resize(one_loaded_img,(224,224))
+
           test_imgs_list.append(one_loaded_img)
 
         # ================================================================================
         test_imgs_np=np.array(test_imgs_list).transpose(0,3,1,2)
         
         # @ If you want to use center (48,48) image from (96,96) image
-        test_imgs_np=test_imgs_np[:,:,24:72,24:72]
+        # test_imgs_np=test_imgs_np[:,:,24:72,24:72]
         # print("test_imgs_np",test_imgs_np.shape)
         # (11, 3, 48, 48)
 
