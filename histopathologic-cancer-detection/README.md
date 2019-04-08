@@ -6,6 +6,13 @@
 - CuDNN v7.4.2.24
 - And others which you can install whenever you run into unmet-dependencies
 
+
+
+! pip install albumentations
+#! pip install pretrainedmodels
+! pip install pytorchcv
+
+
 #### Used techniques
 - Python shell scripting to split excessively large dataset into separated directory
 Then, you will easily upload split files onto Google colaboratory as well as you will easily access each directory to see the image files
@@ -54,4 +61,3 @@ https://github.com/Jongchan/attention-module
 #### Backpropagation, autograd, gradient in PyTorch
 - If you want to read above topics which are relevant to Grad CAM which deals with gradient values, check this out
 https://youngminpark2559.github.io/prac_ml/pytorch/kykim/002_autograd_and_Variable.html
-

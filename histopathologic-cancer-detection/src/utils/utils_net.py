@@ -118,7 +118,7 @@ def net_generator(args,num_entire_imgs):
     # ================================================================================
     # Load model
 
-    if args.use_saved_model=="True":
+    if args.use_saved_model_for_continuous_train=="True":
       checkpoint_gener_direct_rgb=torch.load(
         args.model_save_dir+args.model_file_name_when_saving_and_loading_model)
 

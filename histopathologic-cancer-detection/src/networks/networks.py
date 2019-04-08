@@ -5,6 +5,7 @@
 # ================================================================================
 import torch
 import torch.nn as nn
+from torch.nn import init
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.optim import lr_scheduler
@@ -13,6 +14,8 @@ from torch.utils.data import Dataset, DataLoader
 import torchvision
 import torchvision.transforms as transforms
 from torchvision import datasets,models,transforms
+from pytorchcv.model_provider import get_model as ptcv_get_model
+
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -27,6 +30,8 @@ import natsort
 from PIL import Image
 from skimage.transform import resize
 import scipy.misc
+
+from src.networks import cbam as cbam
 
 # ================================================================================
 def init_weights(m):
@@ -855,3 +860,181 @@ class Custom_Net(nn.Module):
     # torch.Size([11, 2])
 
     return out
+
+# ================================================================================
+class Bottleneck(nn.Module):
+    expansion = 4
+
+    def __init__(self, inplanes, planes, stride=1, downsample=None, use_cbam=False):
+        super(Bottleneck, self).__init__()
+        self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(planes)
+        self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=stride,
+                               padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(planes)
+        self.conv3 = nn.Conv2d(planes, planes * 4, kernel_size=1, bias=False)
+        self.bn3 = nn.BatchNorm2d(planes * 4)
+        self.relu = nn.ReLU(inplace=True)
+        self.downsample = downsample
+        self.stride = stride
+
+        if use_cbam:
+            self.cbam = cbam.CBAM( planes * 4, 16 )
+        else:
+            self.cbam = None
+
+    def forward(self, x):
+        residual = x
+
+        out = self.conv1(x)
+        out = self.bn1(out)
+        out = self.relu(out)
+
+        out = self.conv2(out)
+        out = self.bn2(out)
+        out = self.relu(out)
+
+        out = self.conv3(out)
+        out = self.bn3(out)
+
+        if self.downsample is not None:
+            residual = self.downsample(x)
+
+        if not self.cbam is None:
+            out = self.cbam(out)
+
+        out += residual
+        out = self.relu(out)
+
+        return out
+
+class ResNet50_CBAM(nn.Module):
+    def __init__(self, layers,  network_type, num_classes, att_type=None):
+        super(ResNet50_CBAM, self).__init__()
+
+        self.inplanes = 64
+        self.network_type = network_type
+        self.block=Bottleneck
+        
+        # different model config between ImageNet and CIFAR 
+        if network_type == "ImageNet":
+            self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3, bias=False)
+            self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+            self.avgpool = nn.AvgPool2d(7)
+        else:
+            self.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
+
+        self.bn1 = nn.BatchNorm2d(64)
+        self.relu = nn.ReLU(inplace=True)
+
+        if att_type=='BAM':
+            self.bam1 = BAM(64*self.block.expansion)
+            self.bam2 = BAM(128*self.block.expansion)
+            self.bam3 = BAM(256*self.block.expansion)
+        else:
+            self.bam1, self.bam2, self.bam3 = None, None, None
+
+        self.layer1 = self._make_layer(self.block, 64,  layers[0], att_type=att_type)
+        self.layer2 = self._make_layer(self.block, 128, layers[1], stride=2, att_type=att_type)
+        self.layer3 = self._make_layer(self.block, 256, layers[2], stride=2, att_type=att_type)
+        self.layer4 = self._make_layer(self.block, 512, layers[3], stride=2, att_type=att_type)
+
+        self.fc = nn.Linear(512 * self.block.expansion, num_classes)
+
+        init.kaiming_normal_(self.fc.weight)
+
+        for key in self.state_dict():
+            if key.split('.')[-1]=="weight":
+                if "conv" in key:
+                    init.kaiming_normal_(self.state_dict()[key], mode='fan_out')
+                if "bn" in key:
+                    if "SpatialGate" in key:
+                        self.state_dict()[key][...] = 0
+                    else:
+                        self.state_dict()[key][...] = 1
+            elif key.split(".")[-1]=='bias':
+                self.state_dict()[key][...] = 0
+
+    def _make_layer(self, block, planes, blocks, stride=1, att_type=None):
+        downsample = None
+        if stride != 1 or self.inplanes != planes * block.expansion:
+            downsample = nn.Sequential(
+                nn.Conv2d(self.inplanes, planes * block.expansion,
+                          kernel_size=1, stride=stride, bias=False),
+                nn.BatchNorm2d(planes * block.expansion),
+            )
+
+        layers = []
+        layers.append(block(self.inplanes, planes, stride, downsample, use_cbam=att_type=='CBAM'))
+        self.inplanes = planes * block.expansion
+        for i in range(1, blocks):
+            layers.append(block(self.inplanes, planes, use_cbam=att_type=='CBAM'))
+
+        return nn.Sequential(*layers)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.relu(x)
+        if self.network_type == "ImageNet":
+            x = self.maxpool(x)
+
+        x = self.layer1(x)
+        if not self.bam1 is None:
+            x = self.bam1(x)
+
+        x = self.layer2(x)
+        if not self.bam2 is None:
+            x = self.bam2(x)
+
+        x = self.layer3(x)
+        if not self.bam3 is None:
+            x = self.bam3(x)
+
+        x = self.layer4(x)
+
+        if self.network_type == "ImageNet":
+            x = self.avgpool(x)
+        else:
+            x = F.avg_pool2d(x, 4)
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
+        return x
+
+# ================================================================================
+class Pretrained_ResNet50_CBAM(nn.Module):
+  def __init__(self):
+    super(Pretrained_ResNet50_CBAM,self).__init__()
+    
+    self.model_conv=ptcv_get_model("cbam_resnet50",pretrained=True)
+    # print("model_conv",model_conv)
+    
+    # ================================================================================
+    # Freeze all parameters because you will not train (or edit) those pretrained parameters
+    for param in self.model_conv.parameters():
+      param.requires_grad=False
+
+    # ================================================================================
+    # @ Append layers
+
+    # self.last_pool=nn.AdaptiveAvgPool2d((1, 1))
+    self.last_fc=nn.Sequential(
+      nn.Dropout(0.6),
+      nn.Linear(in_features=1000,out_features=512,bias=True),
+      nn.SELU(),
+      nn.Dropout(0.8),
+      nn.Linear(in_features=512,out_features=1,bias=True))
+
+  def forward(self,x):
+    # print("x p",x.shape)
+    # x p torch.Size([40, 3, 224, 224])
+
+    # ================================================================================
+    x=self.model_conv(x)
+    # print("x",x)
+
+    x=self.last_fc(x)
+    # print("x p",x.shape)
+    # torch.Size([40, 1])
+
+    return x  

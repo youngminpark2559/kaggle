@@ -12,7 +12,7 @@ def return_argument():
     model_save_dir='./ckpt',
     scheduler='None',
     seed=42,
-    text_file_for_paths_dir='/mnt/1T-5e7/image/whole_dataset',
+    dir_where_text_file_for_image_paths_is_in='/mnt/1T-5e7/image/whole_dataset',
     train_method='train_by_transfer_learning_using_resnet',
     train_mode='True',
     use_augmentor='True',
@@ -20,5 +20,5 @@ def return_argument():
     use_local_piecewise_constant_loss='True',
     use_loss_display='True',
     use_multi_gpu='False',
-    use_saved_model='False')
+    use_saved_model_for_continuous_train='False')
   return args
