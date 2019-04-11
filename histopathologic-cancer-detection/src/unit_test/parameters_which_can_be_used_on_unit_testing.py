@@ -14,7 +14,7 @@ def return_argument():
     seed=42,
     dir_where_text_file_for_image_paths_is_in='/mnt/1T-5e7/image/whole_dataset',
     train_method='train_by_transfer_learning_using_resnet',
-    train_mode='True',
+    task_mode='True',
     use_augmentor='True',
     use_integrated_decoders='True',
     use_local_piecewise_constant_loss='True',

@@ -16,22 +16,14 @@ class Model_API_class():
     super(Model_API_class).__init__()
 
     # ================================================================================
-    # Configure member variables
+    # @ Configure member variables
     self.lr=0.0001
     self.weight_decay=0.1
     self.args=args
     self.gen_net,self.optimizer=self.net_generator()
 
   def net_generator(self):
-    """
-    Act
-      * Create gen_net (generated network) object and optimizer object
-    Params
-      * 
-    Return
-      * gen_net
-      * optimizer
-    """
+
     if self.args.train_method=="train_by_transfer_learning_using_resnet":
       
       # ================================================================================
@@ -59,25 +51,23 @@ class Model_API_class():
       if self.args.use_multi_gpu=="True":
         num_gpu=torch.cuda.device_count()
         print("num_gpu",num_gpu)
-        # DEVICE_IDS=list(range(num_gpu))
-        # gen_encoder=nn.DataParallel(gen_encoder,device_ids=DEVICE_IDS)
-        gen_net=nn.DataParallel(gen_net)
+        DEVICE_IDS=list(range(num_gpu))
+        gen_encoder=nn.DataParallel(gen_encoder,device_ids=DEVICE_IDS)
       else: # args.use_multi_gpu=="False":
         pass
 
       # ================================================================================
       # @ Configure optimizer and scheduler
 
-      if self.args.optimizer=="adamW":
-        optimizer=utils_for_custom_optim_and_lr.AdamW(
-          gen_net.parameters(),lr=self.lr,betas=(0.9,0.99),weight_decay=self.weight_decay)
-      else:
-        optimizer=torch.optim.Adam(gen_net.parameters(),lr=self.lr)
+      optimizer=torch.optim.Adam(gen_net.parameters(),lr=self.lr)
 
       # ================================================================================
       # @ Load model for continuous training or test step
 
-      if self.args.train_mode=="False" or self.args.use_saved_model_for_continuous_train=="True":
+      if self.args.task_mode=="validation" or \
+         self.args.task_mode=="submission" or \
+         self.args.use_saved_model_for_continuous_train=="True":
+
         checkpoint_gener_direct_rgb=torch.load(
           self.args.model_save_dir+self.args.model_file_name_when_saving_and_loading_model)
 
@@ -98,20 +88,14 @@ class Model_API_class():
       gen_net_param=self.print_network(gen_net)
       print("gen_net:",gen_net_param)
 
+      # ================================================================================
       return gen_net,optimizer
 
     else: # use_integrated_decoders=="False":
       pass
   
   def print_network(self,gen_net,struct=False):
-    """
-    Args
-      * net: created network
-      * struct (False): do you want to see structure of entire network?
-    Print
-      * Structure of entire network
-      * Total number of parameters of network
-    """
+
     # If you want show the structure of network
     if struct==True:
       print(gen_net)

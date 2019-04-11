@@ -97,7 +97,7 @@ class Dataset_Tumor(data.Dataset):
     # 22003
 
     # ================================================================================
-    # @ Create pairs of train image path and label
+    # @ Create pairs of "train image path" and "label"
 
     self.tumor_trn_pairs=list(zip(path_trn,label_tumor_trn))
     shuffle(self.tumor_trn_pairs)
@@ -108,7 +108,8 @@ class Dataset_Tumor(data.Dataset):
     self.tumor_vali_pairs=list(zip(path_vali,label_tumor_vali))
 
     # ================================================================================
-    # @ Perform screening on entire sorted pairs of "image path" and "id in label" are matched
+    # @ Perform screening on entire sorted pairs of "image path" and "id in label",
+    # to see whether thye are matched
 
     label_tumor_sorted_np=np.array(label_tumor_sorted_list)
 

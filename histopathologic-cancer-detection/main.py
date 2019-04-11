@@ -4,7 +4,7 @@
 # ================================================================================
 # Train
 # rm e.l && python main.py \
-# --train_mode=True \
+# --task_mode="train" \
 # --train_method="train_by_transfer_learning_using_resnet" \
 # --use_saved_model_for_continuous_train=True \
 # --model_save_dir="./ckpt" \
@@ -26,15 +26,37 @@
 
 # dir_where_text_file_for_image_paths_is_in="./../Data"
 
-# Test
+# Validataion
 # rm e.l && python main.py \
-# --train_mode=False \
+# --task_mode="validation" \
 # --train_method="train_by_transfer_learning_using_resnet" \
 # --use_saved_model_for_continuous_train=False \
 # --model_save_dir="./ckpt" \
 # --model_file_name_when_saving_and_loading_model="/tumor_pretrained_resnet50_cbam.pth" \
 # --epoch=5 \
 # --batch_size=30 \
+# --use_augmentor=True \
+# --use_integrated_decoders=True \
+# --use_loss_display=True \
+# --dir_where_text_file_for_image_paths_is_in="/mnt/1T-5e7/mycodehtml/bio_health/Kaggle_histopathologic-cancer-detection/Data" \
+# --use_multi_gpu=False \
+# --check_input_output_via_multi_gpus=False \
+# --measure_train_time=True \
+# --optimizer=None \
+# --network_type="ResNet50_CBAM" \
+# --leapping_term_when_displaying_loss=10 \
+# --leapping_term_when_saving_model_after_batch=10 \
+# 2>&1 | tee -a e.l && code e.l
+
+# Submission
+# rm e.l && python main.py \
+# --task_mode="submission" \
+# --train_method="train_by_transfer_learning_using_resnet" \
+# --use_saved_model_for_continuous_train=False \
+# --model_save_dir="./ckpt" \
+# --model_file_name_when_saving_and_loading_model="/tumor_pretrained_resnet50_cbam.pth" \
+# --epoch=5 \
+# --batch_size=200 \
 # --use_augmentor=True \
 # --use_integrated_decoders=True \
 # --use_loss_display=True \
@@ -93,7 +115,7 @@ if __name__=="__main__":
   #   network_type='ResNet50_CBAM',
   #   dir_where_text_file_for_image_paths_is_in='/mnt/1T-5e7/mycodehtml/bio_health/Kaggle_histopathologic-cancer-detection/Data',
   #   train_method='train_by_transfer_learning_using_resnet',
-  #   train_mode='True',
+  #   task_mode='True',
   #   use_augmentor='True',
   #   use_integrated_decoders='True',
   #   use_loss_display='False',

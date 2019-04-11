@@ -4,7 +4,7 @@ class Hyper_Parameters():
 
   def __init__(self):
     self.add_argument(
-      '--train_mode',
+      '--task_mode',
       default=True)
   @staticmethod
   def funcname(parameter_list):

@@ -4,7 +4,7 @@ import sys,os,copy,argparse
 class Argument_API_class(argparse.ArgumentParser):
   def __init__(self):
     super(Argument_API_class,self).__init__()
-    self.add_argument("--train_mode",default=True)
+    self.add_argument("--task_mode",default=True)
     self.add_argument("--train_method",help="train_by_custom_net,train_by_transfer_learning_using_resnet")
     self.add_argument("--use_saved_model_for_continuous_train",default=False)
     self.add_argument("--model_save_dir")
