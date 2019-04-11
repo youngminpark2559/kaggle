@@ -49,7 +49,7 @@ precision score: 0.96
 recall score: 0.91  
 F1 score: 0.93  
 
-- ROC curve on results
+- ROC curve on results  
 ![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/pics/2019_04_11_10%3A42%3A20.png)  
 
 - Kaggle scores using full 50000 test images  
