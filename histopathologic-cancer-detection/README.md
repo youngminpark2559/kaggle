@@ -50,16 +50,16 @@ https://github.com/Jongchan/attention-module
 1. Run a following util file to process big data  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/utils/utils_split_files_into_directories_to_easily_upload_files_onto_colab.py
 
-2. Edit argument for epoch, batchsize, mode (like train, validation, submission), continuous training, network type, etc to values whatever you want to use
+2. Edit argument for epoch, batchsize, mode (like train, validation, submission), continuous training, network type, etc to values whatever you want to use  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/argument_api/argument_api_module.py
 
-3. Train
+3. Train  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/train/train_by_transfer_learning_using_resnet.py#L90
 
-4. Validation
+4. Validation  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/train/train_by_transfer_learning_using_resnet.py#L265
 
-5. Test and make a submission
+5. Test and make a submission  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/train/train_by_transfer_learning_using_resnet.py#L420
 
 #### Result
@@ -89,3 +89,4 @@ But I decided to original image into (224,224,3) with thinking that large image 
 #### Backpropagation, autograd, gradient in PyTorch
 - If you want to read above topics which are relevant to Grad CAM which deals with gradient values, check this out
 https://youngminpark2559.github.io/prac_ml/pytorch/kykim/002_autograd_and_Variable.html
+
