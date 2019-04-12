@@ -8,10 +8,10 @@
 
 #### Used techniques
 - `Python shell scripting` to split excessively large dataset into separated multiple directories
-Then, you will easily access each directory to see the image files
+Then, you will easily access each directory to see the image files  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/utils/utils_split_files_into_directories_to_easily_upload_files_onto_colab.py
 
-- `Grad CAM` to see where neural network pays attention to by analyzing gradient values.
+- `Grad CAM` to see where neural network pays attention to by analyzing gradient values.  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/utils_analyzing_result/grad_cam.py
 
 You can check my summaries and comments if you want to briefly see it  
@@ -24,8 +24,7 @@ https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-de
 You can check my summaries and comments if you want to briefly see it  
 https://youngminpark2559.github.io/ml_cv_p/CBAM_Convolutional_Block_Attention_Module/paper_summary.html
 
-- `Metrics` to inspect dataset before training and to evaluate performance of the deep learning model after training
-Accuracy, Precision, Recall, ROC Curve, F1 Score, etc  
+- `Metrics` to inspect dataset before training and to evaluate performance of the deep learning model after training by using Accuracy, Precision, Recall, ROC Curve, F1 Score, etc  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/train/train_by_transfer_learning_using_resnet.py#L374
 
 If you want to briefly see the concept of metric, you can check this out  
