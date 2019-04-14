@@ -6,6 +6,31 @@
 - CuDNN v7.4
 - And others which you can install whenever you run into unmet-dependencies
 
+#### Data pre-visualization
+- I plotted points data which are saved in following 3 files  
+1_Region 1_key.xml  
+1_Region 1_mask.tif  
+1_Region 1_crop.session.xml  
+
+It turned out points data are redundant, which means same point data is stored in multiple above 3 files.
+
+- Example  
+Plot with points which I got from 1_Region 1_key.xml file  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/SPIE-AAPM-NCI_BreastPathQ_Cancer_Cellularity_Challenge_2019/pics/2019_04_14_01%3A14%3A03.png)  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/SPIE-AAPM-NCI_BreastPathQ_Cancer_Cellularity_Challenge_2019/pics/2019_04_14_01%3A14%3A35.png)  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/SPIE-AAPM-NCI_BreastPathQ_Cancer_Cellularity_Challenge_2019/pics/2019_04_14_01%3A14%3A58.png)  
+
+Plot with points which I got from 1_Region 1_mask.tif file  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/SPIE-AAPM-NCI_BreastPathQ_Cancer_Cellularity_Challenge_2019/pics/2019_04_14_10%3A01%3A03.png)  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/SPIE-AAPM-NCI_BreastPathQ_Cancer_Cellularity_Challenge_2019/pics/2019_04_14_10%3A01%3A18.png)  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/SPIE-AAPM-NCI_BreastPathQ_Cancer_Cellularity_Challenge_2019/pics/2019_04_14_10%3A01%3A34.png)  
+
+Plot with points which I got from 1_Region 1_crop.session.xml file  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/SPIE-AAPM-NCI_BreastPathQ_Cancer_Cellularity_Challenge_2019/pics/2019_04_14_10%3A02%3A20.png)  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/SPIE-AAPM-NCI_BreastPathQ_Cancer_Cellularity_Challenge_2019/pics/2019_04_14_10%3A02%3A44.png)  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/SPIE-AAPM-NCI_BreastPathQ_Cancer_Cellularity_Challenge_2019/pics/2019_04_14_10%3A02%3A57.png)  
+
+
 #### Used techniques
 - `Python shell scripting` to split excessively large dataset into separated multiple directories
 Then, you will easily access each directory to see the image files  
