@@ -32,9 +32,7 @@ Plot with points which I got from 1_Region 1_crop.session.xml file
 
 
 #### Used techniques
-- `Python shell scripting` to split excessively large dataset into separated multiple directories
-Then, you will easily access each directory to see the image files  
-https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/utils/utils_split_files_into_directories_to_easily_upload_files_onto_colab.py
+- `Python shell scripting`
 
 - `Grad CAM` to see where neural network pays attention to by analyzing gradient values.  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/utils_analyzing_result/grad_cam.py
@@ -57,6 +55,11 @@ If you want to briefly see the concept of metric, you can check this out
 https://youngminpark2559.github.io/mltheory/terry/YouTube/001_005_Metrics_for_deep_learrning_classification_Accuracy_Precision_Recall.html
 2. Supplementary for accuracy, precision, recall. And for ROC curve, AUC  
 https://youngminpark2559.github.io/mltheory/terry/YouTube/001_006_ROC_curve_AUC_Precision_Recall.html
+
+- Dense CRF, Ensemble, XGBoost, SVM claasifier, RGB color space to Lab color space
+
+
+
 
 
 #### Train information
