@@ -7,7 +7,7 @@
 - And others which you can install whenever you run into unmet-dependencies
 
 #### Used techniques
-- `Python shell scripting` to split excessively large dataset into separated multiple directories
+- `Python shell scripting` to split excessively large dataset into separated multiple directories  
 Then, you will easily access each directory to see the image files  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/utils/utils_split_files_into_directories_to_easily_upload_files_onto_colab.py
 
@@ -18,7 +18,7 @@ You can check my summaries and comments if you want to briefly see it
 https://youngminpark2559.github.io/ml_cv_p/Grad-CAM_Visual_Explanations_from_Deep_Networks_via_Gradient-based_Localization/summaries_and_notes.html
 
 - `CBAM attention modules` which help the neural network to see better place (where) and better things (what) for target class  
-https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/networks/networks.py#L864
+https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/networks/networks.py#L864  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/networks/cbam.py
 
 You can check my summaries and comments if you want to briefly see it  
@@ -41,8 +41,7 @@ https://youngminpark2559.github.io/mltheory/terry/YouTube/001_006_ROC_curve_AUC_
 - Train dataset split: train 90%, validation 10%
 - Input image size: resized (224,224,3) from original original (96,96,3)
 - Tested network
-1. ResNet50+CBAM attention module which is originated from
-https://github.com/Jongchan/attention-module
+1. ResNet50+CBAM attention module which is originated from https://github.com/Jongchan/attention-module
 
 
 #### Work flow on this project that I went through
@@ -83,10 +82,9 @@ F1 score: 0.93
 ![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_17_08:52:02.png)  
 
 #### Opinion on trainng process and result
-- At first I used center cropped (48,48,3) from original image (96,96,3)
+- At first I used center cropped (48,48,3) from original image (96,96,3)  
 But I decided to original image into (224,224,3) with thinking that large image can be more good source of feature map in deep CNN network.
 
 #### Backpropagation, autograd, gradient in PyTorch
-- If you want to read above topics which are relevant to Grad CAM which deals with gradient values, check this out
+- If you want to read above topics which are relevant to Grad CAM which deals with gradient values, check this out  
 https://youngminpark2559.github.io/prac_ml/pytorch/kykim/002_autograd_and_Variable.html
-
