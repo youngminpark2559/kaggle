@@ -77,9 +77,10 @@ F1 score: 0.93
 ![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/pics/2019_04_11_11%3A09%3A19.png)  
 
 - Grad CAM output  
-![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_11_11%3A04%3A12.png)
-![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_11_11%3A04%3A43.png)
-![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_11_11%3A05%3A06.png)  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_17_08:48:09.png)  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_17_08:49:45.png)  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_17_08:51:03.png)  
+![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_17_08:52:02.png)  
 
 #### Opinion on trainng process and result
 - At first I used center cropped (48,48,3) from original image (96,96,3)
