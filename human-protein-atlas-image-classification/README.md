@@ -48,11 +48,11 @@ https://youngminpark2559.github.io/mltheory/terry/YouTube/001_006_ROC_curve_AUC_
 
 #### Visualize RGBY images  
 RGB, R channel, G channel, B channel, Y channel but shown as R channel  
-<img src="./img_out/RGBY_visualization/rgb_img_0.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/r_img_0.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/g_img_0.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/b_img_0.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/y_img_0.png" alt="drawing" width="150"/>
+<img src="./img_out/RGBY_visualization/rgb_img_0.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/r_img_0.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/g_img_0.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/b_img_0.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/y_img_0.png" alt="drawing" width="150"/>
 
-<img src="./img_out/RGBY_visualization/rgb_img_1.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/r_img_1.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/g_img_1.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/b_img_1.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/y_img_1.png" alt="drawing" width="150"/>
+<img src="./img_out/RGBY_visualization/rgb_img_1.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/r_img_1.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/g_img_1.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/b_img_1.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/y_img_1.png" alt="drawing" width="150"/>
 
-<img src="./img_out/RGBY_visualization/rgb_img_2.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/r_img_2.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/g_img_2.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/b_img_2.png" alt="drawing" width="150"/><img src="./img_out/RGBY_visualization/y_img_2.png" alt="drawing" width="150"/>
+<img src="./img_out/RGBY_visualization/rgb_img_2.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/r_img_2.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/g_img_2.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/b_img_2.png" alt="drawing" width="150"/> <img src="./img_out/RGBY_visualization/y_img_2.png" alt="drawing" width="150"/>
 
 Following is written for previous project.  
 They will be updated.  
