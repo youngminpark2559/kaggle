@@ -68,6 +68,13 @@ visualize_images(args)
 -- Meaning: Many images have 1 label  
 -- Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
 
+(3) Correlation of proteins  
+<img src="./img_out/Analyze_label_data/correlation_of_proteins.png" alt="drawing" width="600" height="300"/>  
+-- Meaning: No much of correlation of couple of proteins  
+Some proteins has positive correlation (blue) (if one proteins shows more, corresponding other proten also shows more)  
+Some proteins has negative correlation (red) (if one proteins shows more, corresponding other proten also shows less)  
+-- Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
+
 
 Following is written for previous project.  
 They will be updated.  
