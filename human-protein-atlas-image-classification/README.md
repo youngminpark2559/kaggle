@@ -1,11 +1,11 @@
 
 #### Introduction
-- Problem: Image classification which has multi label  
-- Protein is composed of multiple elements  
-- Each image of this dataset shows one protein  
-- That one protein is composed of 28 candidate elements  
-- It means one image has multiple labels like [one_img,[label1,label2,label3]]  
-- And dataset is quite imbalance which means, for example, label1 shows up very frequently, label2 shows very rarely  
+- Problem: Image classification which has multiple labels to single input data  
+- There are 28 proteins in labels  
+- Multiple proteins can be shown in one image  
+- 28 proteins have different shapes
+- Multiple labels means one image can have multiple labels like [one_image,[protein_label1,protein_label2,protein_label3]]  
+- And dataset is quite imbalance which means, for example, protein_label1 shows up very frequently, protein_label2 shows very rarely  
 - You should manage that imbalance in the process of training
 
 #### Libraries
@@ -53,6 +53,11 @@ RGB, R channel, G channel, B channel, Y channel but shown as R channel
 <img src="./img_out/RGBY_visualization/rgb_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/r_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/g_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/b_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/y_img_1.png" alt="drawing" width="160"/>
 
 <img src="./img_out/RGBY_visualization/rgb_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/r_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/g_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/b_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/y_img_2.png" alt="drawing" width="160"/>
+
+#### Analyze label data
+- Frequent distribution of train label data  
+<img src="./img_out/Analyze_label_data/train_label_distribution.png" alt="drawing" width="300"/>  
+
 
 Following is written for previous project.  
 They will be updated.  
