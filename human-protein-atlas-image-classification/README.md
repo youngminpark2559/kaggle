@@ -65,7 +65,7 @@ visualize_images(args)
 
 (2) Frequent distribution of number of labels to each image
 <img src="./img_out/Analyze_label_data/Frequent_distribution_of_number_of_labels_to_each_img.png" alt="drawing" width="600" height="300"/>  
--- Meaning: Many image has 1 label  
+-- Meaning: Many images have 1 label  
 -- Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
 
 
