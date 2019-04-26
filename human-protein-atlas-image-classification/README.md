@@ -57,6 +57,11 @@ RGB, R channel, G channel, B channel, Y channel but shown as R channel
 #### Analyze label data
 - Frequent distribution of train label data  
 <img src="./img_out/Analyze_label_data/train_label_distribution.png" alt="drawing" width="600" height="300"/>  
+Meaning: label data is very imbalance; Nucleoplasm very often shows, Rods & rings shows very rarely.  
+
+- Frequent distribution of number of labels to each image
+<img src="./img_out/Analyze_label_data/Frequent_distribution_of_number_of_labels_to_each_img.png" alt="drawing" width="600" height="300"/>  
+Meaning: Many image has 1 label  
 
 
 Following is written for previous project.  
