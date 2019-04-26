@@ -56,7 +56,7 @@ RGB, R channel, G channel, B channel, Y channel but shown as R channel
 
 #### Analyze label data
 - Frequent distribution of train label data  
-<img src="./img_out/Analyze_label_data/train_label_distribution.png" alt="drawing" width="300"/>  
+<img src="./img_out/Analyze_label_data/train_label_distribution.png" alt="drawing" width="600" width="300"/>  
 
 
 Following is written for previous project.  
