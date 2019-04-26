@@ -47,26 +47,26 @@ https://youngminpark2559.github.io/mltheory/terry/YouTube/001_005_Metrics_for_de
 https://youngminpark2559.github.io/mltheory/terry/YouTube/001_006_ROC_curve_AUC_Precision_Recall.html
 
 #### Visualize RGBY images  
-- RGB, R channel, G channel, B channel, Y channel but shown as R channel  
+-- RGB, R channel, G channel, B channel, Y channel but shown as R channel
 <img src="./img_out/RGBY_visualization/rgb_img_0.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/r_img_0.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/g_img_0.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/b_img_0.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/y_img_0.png" alt="drawing" width="160"/>
 
 <img src="./img_out/RGBY_visualization/rgb_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/r_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/g_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/b_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/y_img_1.png" alt="drawing" width="160"/>
 
 <img src="./img_out/RGBY_visualization/rgb_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/r_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/g_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/b_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/y_img_2.png" alt="drawing" width="160"/>
 
-- Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py
+-- Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py
 visualize_images(args)
 
 #### Analyze label data
 (1) Frequent distribution of train label data  
 <img src="./img_out/Analyze_label_data/train_label_distribution.png" alt="drawing" width="600" height="300"/>  
-- Meaning: label data is very imbalance; Nucleoplasm very often shows, Rods & rings shows very rarely.  
-- Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py
+-- Meaning: label data is very imbalance; Nucleoplasm very often shows, Rods & rings shows very rarely.  
+-- Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py
 
 (2) Frequent distribution of number of labels to each image
 <img src="./img_out/Analyze_label_data/Frequent_distribution_of_number_of_labels_to_each_img.png" alt="drawing" width="600" height="300"/>  
-Meaning: Many image has 1 label  
-- Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
+-- Meaning: Many image has 1 label  
+-- Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
 
 
 Following is written for previous project.  
