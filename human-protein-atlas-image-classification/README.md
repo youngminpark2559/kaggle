@@ -43,7 +43,7 @@ https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image
 (1) Code  
 https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image-classification/src/loss_functions/loss_functions_module.py#L4
 
-- `Metrics` 
+- `Metrics`  
 (1) F1 scores for multi-label & multi-class problem  
 https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image-classification/src/metrics/metrics_module.py#L2
 
