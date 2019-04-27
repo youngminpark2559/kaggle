@@ -31,16 +31,17 @@ https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-de
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/networks/cbam.py
 
 You can check my summaries and comments if you want to briefly see it  
-https://youngminpark2559.github.io/ml_cv_p/CBAM_Convolutional_Block_Attention_Module/paper_summary.html
+https://youngminpark2559.github.io/ml_cv_p/CBAM_Convolutional_Block_Attention_Module/paper_summary.html  
 
 - `K-Fold Cross Train and Validation`  
 (1) Code  
-/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/My_code/V1/prj_root/src/utils_for_dataset/custom_ds.py
+/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/My_code/V1/prj_root/src/utils_for_dataset/custom_ds.py  
+<a href="https://www.w3schools.com">Visit W3Schools.com!</a>  
 
 - `Focal Loss`  
 (1) Code  
-def FocalLoss(output,target):
-/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/My_code/V1/prj_root/src/loss_functions/loss_functions_module.py
+def FocalLoss(output,target):  
+/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/My_code/V1/prj_root/src/loss_functions/loss_functions_module.py  
 
 - `Metrics` to inspect dataset before training and to evaluate performance of the deep learning model after training by using Accuracy, Precision, Recall, ROC Curve, F1 Score, etc  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/train/train_by_transfer_learning_using_resnet.py#L374

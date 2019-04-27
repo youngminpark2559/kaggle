@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import scale
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.feature_extraction import image
+from sklearn.model_selection import RepeatedKFold
 import skimage
 from skimage.morphology import square
 from skimage.restoration import denoise_tv_chambolle
@@ -98,6 +99,50 @@ def split_label_data(loaded_label_data_sorted_list,ninety_percent_portion):
   return loaded_label_data_trn,loaded_label_data_vali,num_of_loaded_label_data_trn,num_of_loaded_label_data_vali
 
 # ================================================================================
+def split_by_k_folds(path_of_protein_imgs_li):
+  # K-Fold validation
+  # - You split dataset into K chunks
+  # - If you use 3-Fold validation like this chunk1/chunk2/chunk3,
+  # (1) Train: chunk1/chunk2, validation: chunk3
+  # (2) Train: chunk1/chunk3, validation: chunk2
+  # (3) Train: chunk2/chunk3, validation: chunk1
+  # - K-Fold validation is advantageous when you have imbalance dataset
+  # - Code
+  # from sklearn.model_selection import RepeatedKFold
+  # splitter = RepeatedKFold(n_splits=3, n_repeats=1, random_state=0)
+  # (1) It makes 3 folds.
+  # (2) If n_repeats=2, it makes 6 folds
+
+  # ================================================================================
+  splitter=RepeatedKFold(n_splits=3,n_repeats=1,random_state=0)
+  
+  train_index_set=[]
+  validation_index_set=[]
+  for train_idx,vali_idx in splitter.split(path_of_protein_imgs_li):
+    train_index_set.append(train_idx)
+    validation_index_set.append(vali_idx)
+    # print("train_idx",train_idx)
+    # print("vali_idx",vali_idx)
+
+    # print("train_idx",len(train_idx))
+    # print("vali_idx",len(vali_idx))
+  
+  # [    1     2     3 ... 31063 31064 31065]
+  # [    0     4     6 ... 31069 31070 31071]
+  # 20714
+  # 10358
+  # [    0     4     6 ... 31069 31070 31071]
+  # [    1     2     3 ... 31060 31061 31065]
+  # 20715
+  # 10357
+  # [    0     1     2 ... 31069 31070 31071]
+  # [   10    11    13 ... 31062 31063 31064]
+  # 20715
+  # 10357
+
+  return train_index_set,validation_index_set
+
+# ================================================================================
 def screening_dataset(loaded_label_data_sorted_list,num_imgs,trn_pairs):
   loaded_label_data_sorted_np=np.array(loaded_label_data_sorted_list)
 
@@ -167,15 +212,44 @@ def screening_dataset(loaded_label_data_sorted_list,num_imgs,trn_pairs):
 
 # ================================================================================
 def one_hot_label(batch_size,label_values):
+  # print("label_values",label_values)
+  # [[1], [1]]
+
   oh_label_arr=np.zeros((batch_size,28))
+  # print("oh_label_arr",oh_label_arr.shape)
+  # (2, 28)
 
   for i in range(batch_size):
     label_for_one=label_values[i]
+    # print("label_for_one",label_for_one)
+    # [1]
+
     for one_label in label_for_one:
-      oh_label_arr[i,one_label]=1
+      # print("one_label",one_label)
+      oh_label_arr[i,int(one_label)]=1
   
   return oh_label_arr.astype("float16")
 
+# ================================================================================
+def one_hot_label_vali(batch_size,label_values):
+  # print("label_values",label_values)
+  # print("label_values",len(label_values))
+  # [[1], [1]]
+
+  oh_label_arr=np.zeros((batch_size,28))
+  # print("oh_label_arr",oh_label_arr.shape)
+  # (2, 28)
+
+  for i in range(batch_size):
+    label_for_one=label_values[i]
+    # print("label_for_one",label_for_one)
+    # [1]
+
+    for one_label in label_for_one:
+      # print("one_label",one_label)
+      oh_label_arr[i,int(one_label)]=1
+  
+  return oh_label_arr.astype("float16")
 
 # ================================================================================
 def divisorGenerator(n):

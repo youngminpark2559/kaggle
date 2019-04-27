@@ -16,6 +16,7 @@ from sklearn.feature_extraction import image
 import timeit
 import sys
 import scipy.misc
+import warnings
 from skimage.transform import resize
 from scipy.ndimage import convolve
 from skimage.restoration import denoise_tv_chambolle
@@ -58,7 +59,7 @@ def i_show_plt(img,gray=False):
 def resize_img(img,img_h,img_w):
     # print("img",img.shape)
     # img (348, 819, 3)
-    rs_img=resize(img,(img_h,img_w))
+    rs_img=resize(img,(img_h,img_w),mode='constant',anti_aliasing=True,anti_aliasing_sigma=None)
     # print("rs_img",rs_img.shape)
     # rs_img (512, 512, 3)
 

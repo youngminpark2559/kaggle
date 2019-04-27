@@ -15,6 +15,7 @@ from skimage.util import random_noise
 from sklearn.metrics import confusion_matrix,classification_report,accuracy_score,\
                             precision_score,recall_score,fbeta_score,f1_score,roc_curve
 import scipy.misc
+import scipy.optimize as opt
 import scipy.special
 from skimage.viewer import ImageViewer
 from random import shuffle
@@ -47,6 +48,7 @@ from src.utils_for_dataset import custom_ds as custom_ds
 from src.utils_for_dataset import custom_ds_test as custom_ds_test
 
 from src.loss_functions import loss_functions_module as loss_functions_module
+from src.metrics import metrics_module as metrics_module
 
 from src.api_model import model_api_module as model_api_module
 from src.api_text_file_path import text_file_path_api_module as text_file_path_api_module
@@ -55,7 +57,7 @@ from src.utils_analyzing_result import grad_cam as grad_cam
 
 # ================================================================================
 def train(args):
-
+  k_fold=3
   epoch=int(args.epoch)
   batch_size=int(args.batch_size)
   # print("epoch",epoch)
@@ -74,8 +76,12 @@ def train(args):
   # /mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train.csv
 
   # ================================================================================
+  train_k,vali_k,train_lbl_k,vali_lbl_k=utils_data.get_k_folds(txt_of_image_data,txt_of_label_data)
+
+  # ================================================================================
   # c loss_list: list which will stores loss values to plot loss
   loss_list=[]
+  f1_score_list=[]
 
   # ================================================================================
   # c model_api_instance: instance of model API
@@ -100,214 +106,260 @@ def train(args):
     scheduler=StepLR(model_api_instance.optimizer,step_size=int(epoch/4),gamma=0.1)
 
     # ================================================================================
-    for one_ep in range(epoch): # @ Iterates all epochs
-
-      # c dataset_inst_trn: dataset instance of tumor
-      dataset_inst_trn=custom_ds.Custom_DS(
-        txt_containing_paths=txt_of_image_data,txt_containing_labels=txt_of_label_data,is_train=True,args=args)
-      
-      # Test iterator
-      # iter_dataset_inst_trn=iter(dataset_inst_trn)
-      # trn=next(iter_dataset_inst_trn)
-      # print("trn",trn)
+    for one_k in range(k_fold):
+      single_train_k=train_k[one_k]
+      single_vali_k=vali_k[one_k]
+      single_train_lbl_k=train_lbl_k[one_k]
+      single_vali_lbl_k=vali_lbl_k[one_k]
 
       # ================================================================================
-      # c dataloader_trn: create dataloader
-      dataloader_trn=torch.utils.data.DataLoader(
-        dataset=dataset_inst_trn,batch_size=batch_size,shuffle=False,num_workers=3)
-      
-      # # c dataloader_trn_iter: iterator of dataloader
-      # dataloader_trn_iter=iter(dataloader_trn)
-      # # Test dataloader
-      # pairs=next(dataloader_trn_iter)
-      # # print("pairs",pairs)
+      # @ Validation dataset
+      dataset_inst_vali=custom_ds.Custom_DS_vali(single_vali_k,single_vali_lbl_k,args=args)
 
-      # ================================================================================
-      # c num_imgs_trn: number of train image
-      num_imgs_trn=len(dataset_inst_trn)
-      # print("num_imgs_trn",num_imgs_trn)
-      # 27964
+      dataloader_vali=torch.utils.data.DataLoader(
+          dataset=dataset_inst_vali,batch_size=batch_size,shuffle=False,num_workers=3)
 
-      args.__setattr__("num_imgs_trn",num_imgs_trn)
-      # print("args",args)
-      
-      # ================================================================================
-      # print("Current batch size:",batch_size)
-      # print("Possible batch size:",list(utils_common.divisorGenerator(num_imgs_trn)))
-      # assert str(num_imgs_trn/batch_size).split(".")[-1]==str(0),"Check batch size, currently it's incorrect"
+      for one_ep in range(epoch): # @ Iterates all epochs
+        # print("single_train_k",len(single_train_k))
+        # 20714
+        # print("single_vali_k",len(single_vali_k))
+        # 10358
+        # print("single_train_lbl_k",len(single_train_lbl_k))
+        # 20714
+        # print("single_vali_lbl_k",len(single_vali_lbl_k))
+        # 10358
 
-      # ================================================================================
-      # @ If you don't use Augmentor
-      if args.use_augmentor=="False":
-        pass      
+        # ================================================================================
+        # c dataset_inst_trn: dataset instance of tumor
+        dataset_inst_trn=custom_ds.Custom_DS(single_train_k,single_train_lbl_k,args=args)
+        
+        # Test iterator
+        # iter_dataset_inst_trn=iter(dataset_inst_trn)
+        # trn=next(iter_dataset_inst_trn)
+        # print("trn",trn)
 
-      else: # @ If you use Augmentor
+        # ================================================================================
+        # c dataloader_trn: create dataloader
+        dataloader_trn=torch.utils.data.DataLoader(
+          dataset=dataset_inst_trn,batch_size=batch_size,shuffle=False,num_workers=3)
+        
+        # # c dataloader_trn_iter: iterator of dataloader
+        # dataloader_trn_iter=iter(dataloader_trn)
+        # # Test dataloader
+        # pairs=next(dataloader_trn_iter)
+        # # print("pairs",pairs)
 
-        # @ Iterate all images in dataset during single epoch
-        for idx,data in enumerate(dataloader_trn):
-          # print("data",data)
-          # [[('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/5f3ad194-bbb4-11e8-b2ba-ac1f6b6435d0_blue.png\n',
-          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/3a846fd6-bba0-11e8-b2b9-ac1f6b6435d0_blue.png\n'),
-          #   ('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/5f3ad194-bbb4-11e8-b2ba-ac1f6b6435d0_green.png\n',
-          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/3a846fd6-bba0-11e8-b2b9-ac1f6b6435d0_green.png\n'),
-          #   ('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/5f3ad194-bbb4-11e8-b2ba-ac1f6b6435d0_red.png\n',
-          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/3a846fd6-bba0-11e8-b2b9-ac1f6b6435d0_red.png\n'),
-          #   ('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/5f3ad194-bbb4-11e8-b2ba-ac1f6b6435d0_yellow.png\n',
-          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/3a846fd6-bba0-11e8-b2b9-ac1f6b6435d0_yellow.png\n')],
-          #  [('5f3ad194-bbb4-11e8-b2ba-ac1f6b6435d0','3a846fd6-bba0-11e8-b2b9-ac1f6b6435d0'),
-          #   ('12 0','25 11 2')]]
-          
-          # c paths_of_imgs: paths of images
-          paths_of_imgs=data[0]
-          # print("paths_of_imgs",paths_of_imgs)
-          # [('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/c3a572e8-bbbd-11e8-b2ba-ac1f6b6435d0_blue.png\n',
-          #   '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/00456fd2-bb9b-11e8-b2b9-ac1f6b6435d0_blue.png\n'),
-          #  ('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/c3a572e8-bbbd-11e8-b2ba-ac1f6b6435d0_green.png\n',
-          #   '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/00456fd2-bb9b-11e8-b2b9-ac1f6b6435d0_green.png\n'),
-          #  ('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/c3a572e8-bbbd-11e8-b2ba-ac1f6b6435d0_red.png\n',
-          #   '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/00456fd2-bb9b-11e8-b2b9-ac1f6b6435d0_red.png\n'),
-          #  ('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/c3a572e8-bbbd-11e8-b2ba-ac1f6b6435d0_yellow.png\n',
-          #   '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/00456fd2-bb9b-11e8-b2b9-ac1f6b6435d0_yellow.png\n')]
+        # ================================================================================
+        # c num_imgs_trn: number of train image
+        num_imgs_trn=len(dataset_inst_trn)
+        # print("num_imgs_trn",num_imgs_trn)
+        # 20714
 
-          # images=[[im_1, mask_1_a, mask_1_b],
-          #         [im_2, mask_2_a, mask_2_b],
-          #         ...,
-          #         [im_n, mask_n_a, mask_n_b]]
+        args.__setattr__("num_imgs_trn",num_imgs_trn)
+        # print("args",args)
+        
+        # ================================================================================
+        # print("Current batch size:",batch_size)
+        # print("Possible batch size:",list(utils_common.divisorGenerator(num_imgs_trn)))
+        # assert str(num_imgs_trn/batch_size).split(".")[-1]==str(0),"Check batch size, currently it's incorrect"
 
-          # y is label like [0,1,1,0,1,1] when you use 6 images which have binary class
+        # ================================================================================
+        # @ If you don't use Augmentor
+        if args.use_augmentor=="False":
+          pass      
 
-          B_imgs=list(paths_of_imgs[0])
-          G_imgs=list(paths_of_imgs[1])
-          R_imgs=list(paths_of_imgs[2])
-          Y_imgs=list(paths_of_imgs[3])
-          
-          zipped_paths=list(zip(B_imgs,G_imgs,R_imgs,Y_imgs))
-          # print("zipped_paths",zipped_paths)
-          # [('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/06a9f3e8-bba5-11e8-b2ba-ac1f6b6435d0_blue.png\n',
-          #   '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/06a9f3e8-bba5-11e8-b2ba-ac1f6b6435d0_green.png\n',
-          #   '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/06a9f3e8-bba5-11e8-b2ba-ac1f6b6435d0_red.png\n',
-          #   '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/06a9f3e8-bba5-11e8-b2ba-ac1f6b6435d0_yellow.png\n'),
-          #  ('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/bc7aabca-bbc0-11e8-b2bb-ac1f6b6435d0_blue.png\n',
-          #   '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/bc7aabca-bbc0-11e8-b2bb-ac1f6b6435d0_green.png\n',
-          #   '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/bc7aabca-bbc0-11e8-b2bb-ac1f6b6435d0_red.png\n',
-          #   '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/bc7aabca-bbc0-11e8-b2bb-ac1f6b6435d0_yellow.png\n')]
+        else: # @ If you use Augmentor
+
+          # @ Iterate all images in dataset during single epoch
+          for idx,data in enumerate(dataloader_trn):
+           
+            bs_pa_tumor_d=utils_data.create_batch_pair_of_paths(data,args)
+            # print("bs_pa_tumor_d",bs_pa_tumor_d)
+            # [[('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/292d9824-bba1-11e8-b2b9-ac1f6b6435d0_blue.png',
+            #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/292d9824-bba1-11e8-b2b9-ac1f6b6435d0_green.png',
+            #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/292d9824-bba1-11e8-b2b9-ac1f6b6435d0_red.png',
+            #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/292d9824-bba1-11e8-b2b9-ac1f6b6435d0_yellow.png'),
+            #   ('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/7f1e4598-bbc0-11e8-b2bb-ac1f6b6435d0_blue.png',
+            #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/7f1e4598-bbc0-11e8-b2bb-ac1f6b6435d0_green.png',
+            #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/7f1e4598-bbc0-11e8-b2bb-ac1f6b6435d0_red.png',
+            #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/7f1e4598-bbc0-11e8-b2bb-ac1f6b6435d0_yellow.png')],
+            #  array(['3','23'],dtype='<U2')]
+
+            # ================================================================================
+            # @ Perform data augmentation
+
+            sampled_trn_imgs,label_values=utils_data.use_augmetor_for_data(bs_pa_tumor_d,args)
+            # afaf 1: sampled_trn_imgs,label_values=utils_data.use_augmetor_for_data(bs_pa_tumor_d,args)
+            
+            # print("sampled_trn_imgs",sampled_trn_imgs.shape)
+            # (2, 4, 224, 224)
+            
+            # print("label_values",label_values)
+            # [[4], [14]]
+
+            # print("label_values",np.array(label_values).shape)
+            # (2, 2)
+
+            # ================================================================================
+            oh_label_arr=utils_common.one_hot_label(batch_size,label_values)
+            # print("oh_label_arr",oh_label_arr)
+            # [[0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+            #  [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]]
+
+            # ================================================================================
+            trn_imgs_tcv=utils_pytorch.get_Variable(sampled_trn_imgs)
+            # print("trn_imgs_tcv",trn_imgs_tcv.shape)
+            # torch.Size([2, 4, 224, 224])
+
+            # ================================================================================
+            # @ Remove existing gradients
+            model_api_instance.remove_existing_gradients_before_starting_new_training()
+            
+            # ================================================================================
+            # @ c predicted_labels: pass input images and get predictions
+            predicted_labels=model_api_instance.gen_net(trn_imgs_tcv)
+            # print("predicted_labels",predicted_labels)
+            # tensor([[-0.2858, -0.7700, -0.0600,  0.3553,  0.0367, -0.4130,  0.3102, -0.2443,
+            #          -0.1775, -0.1839,  0.0499, -0.1489, -0.9805,  0.1817, -0.0504,  0.8930,
+            #          -0.4017, -0.1899,  0.0937, -0.3465,  0.2830, -0.2755,  0.4233, -0.1301,
+            #           1.1688,  0.2110,  0.1423, -0.3933],
+            #         [-0.2858, -0.7700, -0.0600,  0.3553,  0.0367, -0.4130,  0.3102, -0.2443,
+            #          -0.1775, -0.1839,  0.0499, -0.1489, -0.9805,  0.1817, -0.0504,  0.8930,
+            #          -0.4017, -0.1899,  0.0937, -0.3465,  0.2830, -0.2755,  0.4233, -0.1301,
+            #           1.1688,  0.2110,  0.1423, -0.3933]], device='cuda:0',grad_fn=<AddmmBackward>)
+
+            label_tc=Variable(torch.tensor(oh_label_arr,device=predicted_labels.device).float())
+            # print("label_tc",label_tc)
+            # tensor([[0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+            #         [0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]], 
+            #         device='cuda:0',dtype=torch.float16)
+
+            # ================================================================================
+            # @ Calculate loss values
+
+            loss_val=loss_functions_module.FocalLoss(predicted_labels,label_tc)
+            # print("loss_val",loss_val)
+            # tensor(6.5374, device='cuda:0', grad_fn=<MeanBackward1>)
+                      
+            # ================================================================================
+            # @ Calculate gradient values through backpropagation
+            loss_val.backward()
+
+            # ================================================================================
+            # @ Update parameters of the network based on gradients
+            model_api_instance.optimizer.step()
+
+            # ================================================================================
+            # @ If you want to print loss
+            if args.use_loss_display=="True":
+              if idx%int(args.leapping_term_when_displaying_loss)==0:
+                print("Epoch:",one_ep,", Batch:",idx)
+                print("loss_from_one_batch",loss_val.item())
+            
+            loss_list.append(loss_val.item())
+
+            # ================================================================================
+            # @ Save model after every batch you configure 
+            # by using args.leapping_term_when_saving_model_after_batch
+            if idx%int(args.leapping_term_when_saving_model_after_batch)==0:
+              num_batch="batch_"+str(idx)
+              model_api_instance.save_model_after_epoch(num_batch)
+
+            # ================================================================================
+            # print("end of single batch")
 
           # ================================================================================
-          # c labels_in_scalar: label values of images
-          labels_in_scalar=np.array(data[1][1])
-          # print("labels_in_scalar",labels_in_scalar)
-          # ['19 0' '25 6 0']
+          # print("end of all batches")
 
-          # ================================================================================
-          # c bs_pa_tumor_d: batchsized paths of tumor dataset
-          bs_pa_tumor_d=[zipped_paths,labels_in_scalar]
-          # print("bs_pa_tumor_d",bs_pa_tumor_d)
-          # [[('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/ab03b420-bbbd-11e8-b2ba-ac1f6b6435d0_blue.png\n',
-          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/ab03b420-bbbd-11e8-b2ba-ac1f6b6435d0_green.png\n',
-          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/ab03b420-bbbd-11e8-b2ba-ac1f6b6435d0_red.png\n',
-          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/ab03b420-bbbd-11e8-b2ba-ac1f6b6435d0_yellow.png\n'),
-          #   ('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/815d3f74-bbc2-11e8-b2bb-ac1f6b6435d0_blue.png\n',
-          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/815d3f74-bbc2-11e8-b2bb-ac1f6b6435d0_green.png\n',
-          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/815d3f74-bbc2-11e8-b2bb-ac1f6b6435d0_red.png\n',
-          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/815d3f74-bbc2-11e8-b2bb-ac1f6b6435d0_yellow.png\n')],
-          #  array(['22','0 21'],dtype='<U4')]
+        # ================================================================================
+        # @ Save model after epoch
+        num_epoch="epoch_"+str(one_ep)
+        model_api_instance.save_model_after_epoch(num_epoch)
 
+        # ================================================================================
+        # @ Update learning rate
 
-          # ================================================================================
-          # @ Perform data augmentation
+        scheduler.step()
+        # print("scheduler.base_lrs",scheduler.base_lrs)
 
-          sampled_trn_imgs,label_values=utils_data.use_augmetor_for_tumor_data(bs_pa_tumor_d,args)
-          
-          # print("sampled_trn_imgs",sampled_trn_imgs.shape)
+        # ================================================================================
+        # print("End of single epoch")
+
+      # ================================================================================
+      # print("end of all epochs")
+      
+      # ================================================================================
+      with torch.no_grad():
+        n=28
+        TP=torch.tensor(np.zeros(n)).float().cuda()
+        FP=torch.tensor(np.zeros(n)).float().cuda()
+        FN=torch.tensor(np.zeros(n)).float().cuda()
+
+        for idx_vali,data_vali in enumerate(dataloader_vali):
+          bs_pa_tumor_d_vali=utils_data.create_batch_pair_of_paths(data_vali,args)
+          # print("bs_pa_tumor_d_vali",bs_pa_tumor_d_vali)
+          # [[('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/0020af02-bbba-11e8-b2ba-ac1f6b6435d0_blue.png',
+          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/0020af02-bbba-11e8-b2ba-ac1f6b6435d0_green.png',
+          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/0020af02-bbba-11e8-b2ba-ac1f6b6435d0_red.png',
+          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/0020af02-bbba-11e8-b2ba-ac1f6b6435d0_yellow.png'),
+          #   ('/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/00070df0-bbc3-11e8-b2bc-ac1f6b6435d0_blue.png',
+          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/00070df0-bbc3-11e8-b2bc-ac1f6b6435d0_green.png',
+          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/00070df0-bbc3-11e8-b2bc-ac1f6b6435d0_red.png',
+          #    '/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train/00070df0-bbc3-11e8-b2bc-ac1f6b6435d0_yellow.png')],
+          #  array(['25 2','16 0'],dtype='<U4')]
+
+          img_paths=bs_pa_tumor_d_vali[0]
+          labels=bs_pa_tumor_d_vali[1]
+          # print("labels",labels)
+          # labels ['2 0' '1']
+          # print("labels",labels.shape)
+
+          labels=[one_protein_lbl.strip().split(" ") for one_protein_lbl in labels]
+          # [['5'], ['0'], ['25'], ['2'], ['23'], ['25', '4'], ['12'], ['22', '2'], ['3'], ['0', '21'], ['2'], ['25', '18', '3', '0'], ['5'], ['2', '0', '21'], ['0', '21'], ['25'], ['25'], ['23'], ['23', '0'], ['25', '2', '0']]
+          # print("labels",labels)
+
+          labels_oh=utils_common.one_hot_label_vali(batch_size,labels)
+          # print("labels_oh",labels_oh)
+          # [[1. 1. 1. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+          #  [0. 0. 1. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]]
+          labels_oh_np=np.array(labels_oh)
+          labels_oh_tc=torch.tensor(labels_oh_np).cuda()
+
+          all_images_vali_stacked=utils_data.get_batch_vali_imgs(img_paths)
+          # print("all_images_vali_stacked",all_images_vali_stacked.shape)
           # (2, 4, 224, 224)
-          
-          # print("label_values",label_values)
-          # [[4], [14]]
 
-          # print("label_values",np.array(label_values).shape)
-          # (2, 2)
-
-          # ================================================================================
-          oh_label_arr=utils_common.one_hot_label(batch_size,label_values)
-          # print("oh_label_arr",oh_label_arr)
-          # [[0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
-          #  [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]]
-
-          # ================================================================================
-          trn_imgs_tcv=utils_pytorch.get_Variable(sampled_trn_imgs)
-          # print("trn_imgs_tcv",trn_imgs_tcv.shape)
+          all_images_vali_stacked_tc=utils_pytorch.get_Variable(all_images_vali_stacked)
+          # print("all_images_vali_stacked_tc",all_images_vali_stacked_tc.shape)
           # torch.Size([2, 4, 224, 224])
 
+          model_eval=model_api_instance.gen_net.eval()
+          pred_vali=model_eval(all_images_vali_stacked_tc)
+          # print("pred_vali",pred_vali)
+          # print("pred_vali",pred_vali.shape)
+          # torch.Size([2, 28])
+      
           # ================================================================================
-          # @ Remove existing gradients
-          model_api_instance.remove_existing_gradients_before_starting_new_training()
-          
-          # ================================================================================
-          # @ c predicted_labels: pass input images and get predictions
-          predicted_labels=model_api_instance.gen_net(trn_imgs_tcv)
-          # print("predicted_labels",predicted_labels)
-          # tensor([[-0.2858, -0.7700, -0.0600,  0.3553,  0.0367, -0.4130,  0.3102, -0.2443,
-          #          -0.1775, -0.1839,  0.0499, -0.1489, -0.9805,  0.1817, -0.0504,  0.8930,
-          #          -0.4017, -0.1899,  0.0937, -0.3465,  0.2830, -0.2755,  0.4233, -0.1301,
-          #           1.1688,  0.2110,  0.1423, -0.3933],
-          #         [-0.2858, -0.7700, -0.0600,  0.3553,  0.0367, -0.4130,  0.3102, -0.2443,
-          #          -0.1775, -0.1839,  0.0499, -0.1489, -0.9805,  0.1817, -0.0504,  0.8930,
-          #          -0.4017, -0.1899,  0.0937, -0.3465,  0.2830, -0.2755,  0.4233, -0.1301,
-          #           1.1688,  0.2110,  0.1423, -0.3933]], device='cuda:0',grad_fn=<AddmmBackward>)
+          single_TP,single_FP,single_FN=metrics_module.calculate_f1_score(pred_vali,labels_oh_tc)
+          TP+=single_TP
+          FP+=single_FP
+          FN+=single_FN
 
-          label_tc=Variable(torch.tensor(oh_label_arr,device=predicted_labels.device).float())
-          # print("label_tc",label_tc)
-          # tensor([[0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
-          #         [0., 0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,0., 0., 0., 0., 0., 0., 0., 0., 0., 0.]], 
-          #         device='cuda:0',dtype=torch.float16)
-
-          # ================================================================================
-          # @ Calculate loss values
-
-          loss_val=loss_functions_module.FocalLoss(predicted_labels,label_tc)
-          print("loss_val",loss_val)
-          afaf
-          # tensor(6.5246, device='cuda:0', grad_fn=<MeanBackward1>)
-                    
-          # ================================================================================
-          # @ Calculate gradient values through backpropagation
-          loss_val.backward()
-
-          # ================================================================================
-          # @ Update parameters of the network based on gradients
-          model_api_instance.optimizer.step()
-
-          # ================================================================================
-          # @ If you want to print loss
-          if args.use_loss_display=="True":
-            if idx%int(args.leapping_term_when_displaying_loss)==0:
-              print("Epoch:",one_ep,", Batch:",idx)
-              print("loss_from_one_batch",loss_val.item())
-          
-          loss_list.append(loss_val.item())
-
-          # ================================================================================
-          # @ Save model after every batch you configure 
-          # by using args.leapping_term_when_saving_model_after_batch
-          if idx%int(args.leapping_term_when_saving_model_after_batch)==0:
-            num_batch="batch_"+str(idx)
-            model_api_instance.save_model_after_epoch(num_batch)
-
-      # ================================================================================
-      # @ Save model after epoch
-      num_epoch="epoch_"+str(one_ep)
-      model_api_instance.save_model_after_epoch(num_epoch)
-
-      # ================================================================================
-      # @ Update learning rate
-
-      scheduler.step()
-      # print("scheduler.base_lrs",scheduler.base_lrs)
+        score=(2.0*TP/(2.0*TP+FP+FN+1e-6)).mean()
+        print("score",score)
+        f1_score_list.append(score.item())
+        # tensor(0.0238, device='cuda:0')
 
     # ================================================================================
     # @ Plot loss value
     plt.plot(loss_list)
+    plt.title("Loss value: 1st fold, 2nd fold, 3rd fold, continuously")
     plt.savefig("loss.png")
+    plt.show()
+
+    plt.plot(f1_score_list)
+    plt.title("F1 score: 1st fold, 2nd fold, 3rd fold, continuously")
+    plt.savefig("f1_score.png")
     plt.show()
   
   # ================================================================================

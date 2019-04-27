@@ -4,6 +4,7 @@
 # ================================================================================
 # Train
 # rm e.l && python main.py \
+# --start_mode="train" \
 # --task_mode="train" \
 # --train_method="train_by_transfer_learning_using_resnet" \
 # --use_saved_model_for_continuous_train=False \
@@ -24,8 +25,13 @@
 # --leapping_term_when_saving_model_after_batch=1000 \
 # 2>&1 | tee -a e.l && code e.l
 
+# ================================================================================
 # dir_where_text_file_for_image_paths_is_in="./../Data"
 
+# --start_mode="preanalyze_data" \
+# --start_mode="train" \
+
+# ================================================================================
 # Validataion
 # rm e.l && python main.py \
 # --task_mode="validation" \
@@ -48,6 +54,7 @@
 # --leapping_term_when_saving_model_after_batch=10 \
 # 2>&1 | tee -a e.l && code e.l
 
+# ================================================================================
 # Submission
 # rm e.l && python main.py \
 # --task_mode="submission" \
@@ -81,6 +88,8 @@ from src.train import train_by_transfer_learning_using_resnet as train_by_transf
 
 from src.api_argument import argument_api_module as argument_api_module
 
+from src.utils_preanalyze_data import utils_preanalyze_data_module as utils_preanalyze_data_module
+
 # ================================================================================
 def start_func(args):
   if args.train_method=="train_by_custom_net":
@@ -89,6 +98,13 @@ def start_func(args):
     train_by_transfer_learning_using_resnet.train(args)
   else:
     pass
+
+# ================================================================================
+def preanalyze_data(args):
+  # utils_preanalyze_data_module.visualize_images(args)
+  utils_preanalyze_data_module.frequent_distribution_of_train_label_data(args)
+  utils_preanalyze_data_module.frequent_distribution_of_number_of_labels_to_each_img(args)
+  utils_preanalyze_data_module.correlation_of_proteins(args)
 
 if __name__=="__main__":
   # c argument_api: instance of Argument_API_class
@@ -122,4 +138,7 @@ if __name__=="__main__":
   #   use_multi_gpu='False',
   #   use_saved_model_for_continuous_train='False')
 
-  start_func(args)
+  if args.start_mode=="preanalyze_data":
+    preanalyze_data(args)
+  elif args.start_mode=="train":
+    start_func(args)
