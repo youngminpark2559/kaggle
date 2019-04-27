@@ -66,6 +66,26 @@ Some proteins has positive correlation (blue) (if one proteins shows more, corre
 Some proteins has negative correlation (red) (if one proteins shows more, corresponding other proten also shows less)  
 2) Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
 
+#### Train flow  
+```
+3fold_train_img_path,3folds_train_label,3folds,validation_path,3folds_validation_label=\
+   get_3_folds_of_train_and_validation_path(entire_path)
+
+for one_k in range(3):
+  for one_epoch in range(all_epochs):
+    for one_batch in range(all_batch):
+      prediction=network(input)
+      loss=focal_loss(prediction,label)
+      loss.backward()
+      optimizer.step()
+
+  for vali_idx,validation_data in enumerate(validation_dataloader):
+    with torch.no_grad():
+      prediction=network(input)
+      f1_score_value=f1_score(prediction,label)
+```
+
+
 #### Train result  
 (1) Decrease of loss value  
 1) Visualization  
