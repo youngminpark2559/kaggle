@@ -83,12 +83,12 @@ Some proteins has negative correlation (red) (if one proteins shows more, corres
 #### Train result  
 (1) Decrease of loss value  
 - Visualization  
-<img src="./img_out/Result_scores/f1_score.png" alt="drawing" width="600" height="300"/>  
+<img src="./img_out/Result_scores/loss.png" alt="drawing" width="600" height="300"/>  
 - Code:  
 
 (2) F1 scores  
 - Visualization  
-<img src="./img_out/Result_scores/loss.png" alt="drawing" width="600" height="300"/>  
+<img src="./img_out/Result_scores/f1_score.png" alt="drawing" width="600" height="300"/>  
 - Code  
 
 #### Backpropagation, autograd, gradient in PyTorch
