@@ -66,7 +66,7 @@ Some proteins has positive correlation (blue) (if one proteins shows more, corre
 Some proteins has negative correlation (red) (if one proteins shows more, corresponding other proten also shows less)  
 2) Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
 
-#### Train flow  
+#### Train workflow  
 ```
 3fold_train_img_path,3folds_train_label,3folds,validation_path,3folds_validation_label=\
    get_3_folds_of_train_and_validation_path(entire_path)
