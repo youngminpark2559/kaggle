@@ -80,12 +80,10 @@ Some proteins has negative correlation (red) (if one proteins shows more, corres
 (1) Decrease of loss value  
 1) Visualization  
 <img src="./img_out/Result_scores/loss.png" alt="drawing" width="600" height="300"/>  
-2) Code:  
 
 (2) F1 scores  
 1) Visualization  
 <img src="./img_out/Result_scores/f1_score.png" alt="drawing" width="600" height="300"/>  
-2) Code  
 
 #### Backpropagation, autograd, gradient in PyTorch
 - If you want to read above topics which are relevant to Grad CAM which deals with gradient values, check this out  
