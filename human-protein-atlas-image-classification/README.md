@@ -33,9 +33,14 @@ https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-de
 You can check my summaries and comments if you want to briefly see it  
 https://youngminpark2559.github.io/ml_cv_p/CBAM_Convolutional_Block_Attention_Module/paper_summary.html
 
-- `K-Fold Cross-Validation`  
+- `K-Fold Cross Train and Validation`  
+(1) Code  
+/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/My_code/V1/prj_root/src/utils_for_dataset/custom_ds.py
 
 - `Focal Loss`  
+(1) Code  
+def FocalLoss(output,target):
+/mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/My_code/V1/prj_root/src/loss_functions/loss_functions_module.py
 
 - `Metrics` to inspect dataset before training and to evaluate performance of the deep learning model after training by using Accuracy, Precision, Recall, ROC Curve, F1 Score, etc  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/train/train_by_transfer_learning_using_resnet.py#L374
@@ -75,59 +80,16 @@ Some proteins has positive correlation (blue) (if one proteins shows more, corre
 Some proteins has negative correlation (red) (if one proteins shows more, corresponding other proten also shows less)  
 -- Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
 
+#### Train result  
+(1) Decrease of loss value  
+- Visualization  
+<img src="./img_out/Result_scores/f1_score.png" alt="drawing" width="600" height="300"/>  
+- Code:  
 
-Following is written for previous project.  
-They will be updated.  
-#### Train information
-- Epoch: 6 epochs (one epoch took 2 hours on GTX 1060 6GB GPU)
-- Batch size: 30  
-- Weight on loss value: 10.0 (i.e., final_loss_value=10.0*loss_value)
-- Train dataset split: train 90%, validation 10%
-- Input image size: resized (224,224,3) from original original (96,96,3)
-- Tested network
-1. ResNet50+CBAM attention module which is originated from https://github.com/Jongchan/attention-module
-
-
-#### Work flow on this project that I went through
-1. Run a following util file to process big data  
-https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/utils/utils_split_files_into_directories_to_easily_upload_files_onto_colab.py
-
-2. Edit argument for epoch, batchsize, mode (like train, validation, submission), continuous training, network type, etc to values whatever you want to use  
-https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/argument_api/argument_api_module.py
-
-3. Train  
-https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/train/train_by_transfer_learning_using_resnet.py#L90
-
-4. Validation  
-https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/train/train_by_transfer_learning_using_resnet.py#L265
-
-5. Test and make a submission  
-https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/train/train_by_transfer_learning_using_resnet.py#L420
-
-#### Result
-- Validation scores using 10% number of images from full train dataset  
-```
-Accuracy score: 0.95  
-precision score: 0.96  
-recall score: 0.91  
-F1 score: 0.93  
-```
-
-- ROC curve on results  
-![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/pics/2019_04_11_10%3A42%3A20.png)  
-
-- Kaggle scores using full 50000 test images  
-![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/pics/2019_04_11_11%3A09%3A19.png)  
-
-- Grad CAM output  
-![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_17_08:48:09.png)  
-![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_17_08:49:45.png)  
-![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_17_08:51:03.png)  
-![alt text](https://raw.githubusercontent.com/youngminpark2559/kaggle/master/histopathologic-cancer-detection/src/utils_analyzing_result/Grad_CAM_output/2019_04_17_08:52:02.png)  
-
-#### Opinion on trainng process and result
-- At first I used center cropped (48,48,3) from original image (96,96,3)  
-But I decided to original image into (224,224,3) with thinking that large image can be more good source of feature map in deep CNN network.
+(2) F1 scores  
+- Visualization  
+<img src="./img_out/Result_scores/loss.png" alt="drawing" width="600" height="300"/>  
+- Code  
 
 #### Backpropagation, autograd, gradient in PyTorch
 - If you want to read above topics which are relevant to Grad CAM which deals with gradient values, check this out  
