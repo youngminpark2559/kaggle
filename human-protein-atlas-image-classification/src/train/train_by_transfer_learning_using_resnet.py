@@ -68,7 +68,7 @@ def train(args):
   # ================================================================================
   text_file_instance=text_file_path_api_module.Path_Of_Text_Files(args)
 
-  txt_of_image_data=tumor_trn=text_file_instance.image_data
+  txt_of_image_data=text_file_instance.image_data
   txt_of_label_data=text_file_instance.label_data
   # print("txt_of_image_data",txt_of_image_data)
   # print("txt_of_label_data",txt_of_label_data)
