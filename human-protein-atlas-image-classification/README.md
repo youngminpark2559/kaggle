@@ -16,16 +16,6 @@
 - And others which you can install whenever you run into unmet-dependencies
 
 #### Used techniques
-- `Python shell scripting` to split excessively large dataset into separated multiple directories  
-Then, you will easily access each directory to see the image files  
-https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/utils/utils_split_files_into_directories_to_easily_upload_files_onto_colab.py
-
-- `Grad CAM` to see where neural network pays attention to by analyzing gradient values.  
-https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/utils_analyzing_result/grad_cam.py
-
-You can check my summaries and comments if you want to briefly see it  
-https://youngminpark2559.github.io/ml_cv_p/Grad-CAM_Visual_Explanations_from_Deep_Networks_via_Gradient-based_Localization/summaries_and_notes.html
-
 - `CBAM attention modules` which help the neural network to see better place (where) and better things (what) for target class  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/networks/networks.py#L864  
 https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/networks/cbam.py
