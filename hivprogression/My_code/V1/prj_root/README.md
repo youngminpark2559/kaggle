@@ -58,8 +58,7 @@ https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image
 4.. Frequence distribution of train data (VL-t0)<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_12%3A35%3A28.png" alt="drawing" width="300" height="300"/><br/>
 ..(1) Meaning:<br/>
-....1) Overall, frequent distribution looks Gaussian normal distribution<br/>
-except for periodic low values like 1 and 2<br/>
+....1) Overall, frequent distribution looks Gaussian normal distribution except for periodic low values like 1 and 2<br/>
 
 5.. Frequence distribution of train data (CD4-t0)<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_13%3A50%3A59.png" alt="drawing" width="300" height="300"/><br/>
