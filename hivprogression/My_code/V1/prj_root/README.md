@@ -66,22 +66,10 @@ https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image
 ....1) Data is biased to the the left region (small values)<br/>
 
 #### Analyze label data
-(1) Frequent distribution of train label data  
-<img src="./img_out/Analyze_label_data/train_label_distribution.png" alt="drawing" width="600" height="300"/>  
-1) Meaning: label data is very imbalance; Nucleoplasm very often shows, Rods & rings shows very rarely.  
-2) Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py
+1. Normalize CD4 data from [0,1200] scale to [0,1] scale<br/>
+Distribution doesn't change.<br/>
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Process_data/2019_05_02_20%3A56%3A06.png" alt="drawing" width="300" height="300"/><br/>
 
-(2) Frequent distribution of number of labels to each image
-<img src="./img_out/Analyze_label_data/Frequent_distribution_of_number_of_labels_to_each_img.png" alt="drawing" width="600" height="300"/>  
-1) Meaning: Many images have 1 label  
-2) Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
-
-(3) Correlation of proteins  
-<img src="./img_out/Analyze_label_data/correlation_of_proteins.png" alt="drawing" width="600" height="300"/>  
-1) Meaning: No much of correlation of couple of proteins  
-Some proteins has positive correlation (blue) (if one proteins shows more, corresponding other proten also shows more)  
-Some proteins has negative correlation (red) (if one proteins shows more, corresponding other proten also shows less)  
-2) Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
 
 #### Train workflow  
 ```
