@@ -40,14 +40,14 @@ https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image
 
 #### Visualize train data  
 1.. Correlation between factors  
-<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_10%3A49%3A06.png" alt="drawing" width="600" height="600"/>  
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_10%3A49%3A06.png" alt="drawing" width="300" height="300"/>  
 
 (1) Meaning: there are nagative and positive relationships between factors.  
 (2) Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
 visualize_images(args)  
 
 2. Frequence distribution of label data (Resp)  
-<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_11%3A59%3A41.png" alt="drawing" width="600" height="600"/>  
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_11%3A59%3A41.png" alt="drawing" width="300" height="300"/>  
 (1) Meaning:  
 1) There are imbalanced labels which should be solved for accurate training the model  
 
