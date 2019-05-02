@@ -57,6 +57,11 @@ visualize_images(args)
 1) Overall, frequent distribution looks Gaussian normal distribution  
 except for periodic low values like 1 and 2  
 
+4. Frequence distribution of train data (VL-t0)  
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_13:00:42.png" alt="drawing" width="300" height="300"/>  
+(1) Meaning:  
+1) All data is unique  
+
 #### Analyze label data
 (1) Frequent distribution of train label data  
 <img src="./img_out/Analyze_label_data/train_label_distribution.png" alt="drawing" width="600" height="300"/>  
