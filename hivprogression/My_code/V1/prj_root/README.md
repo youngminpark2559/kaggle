@@ -51,10 +51,10 @@ visualize_images(args)
 (1) Meaning:  
 1) There are imbalanced labels which should be solved for accurate training the model  
 
-3. Frequence distribution of train data (PR Seq)\
-<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_13:27:45.png" alt="drawing" width="300" height="300"/>\
-(1) Meaning:\
-1) All data is unique\
+3. Frequence distribution of train data (PR Seq)<br/>
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_13:27:45.png" alt="drawing" width="300" height="300"/><br/>
+(1) Meaning:<br/>
+1) All data is unique<br/>
 
 
 3. Frequence distribution of train data (cd4-t0)  
