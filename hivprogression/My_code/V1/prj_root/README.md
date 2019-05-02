@@ -39,50 +39,32 @@ https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image
 https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image-classification/src/metrics/metrics_module.py#L2
 
 #### Visualize train data  
-1.. Correlation between factors  
-<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_10%3A49%3A06.png" alt="drawing" width="300" height="300"/>  
+1.. Correlation between factors<br/>
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_10%3A49%3A06.png" alt="drawing" width="300" height="300"/><br/>
+(1).. Meaning: there are nagative and positive relationships between factors.<br/>
+(2).. Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py<br/>
+visualize_images(args)<br/>
 
-(1).. Meaning: there are nagative and positive relationships between factors.  
-(2).. Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py  
-visualize_images(args)  
-
-2.. Frequence distribution of label data (Resp)  
-<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_11%3A59%3A41.png" alt="drawing" width="300" height="300"/>  
-(1).. Meaning:  
-1).. There are imbalanced labels which should be solved for accurate training the model  
+2.. Frequence distribution of label data (Resp)<br/>
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_11%3A59%3A41.png" alt="drawing" width="300" height="300"/><br/>
+(1).. Meaning:<br/>
+1).. There are imbalanced labels which should be solved for accurate training the model<br/>
 
 3.. Frequence distribution of train data (PR Seq)<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_13:27:45.png" alt="drawing" width="300" height="300"/><br/>
 (1).. Meaning:<br/>
 1).. All data is unique<br/>
 
+4.. Frequence distribution of train data (VL-t0)<br/>
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_12%3A35%3A28.png" alt="drawing" width="300" height="300"/><br/>
+(1).. Meaning:<br/>
+1).. Overall, frequent distribution looks Gaussian normal distribution<br/>
+except for periodic low values like 1 and 2<br/>
 
-3.. Frequence distribution of train data (cd4-t0)  
-<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_12%3A35%3A28.png" alt="drawing" width="300" height="300"/>  
-(1).. Meaning:  
-1).. Overall, frequent distribution looks Gaussian normal distribution  
-except for periodic low values like 1 and 2  
-
-4.. Frequence distribution of train data (VL-t0)  
-<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_13%3A00%3A42.png" alt="drawing" width="300" height="300"/>  
-(1).. Meaning:  
-1).. All data is unique  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+5.. Frequence distribution of train data (CD4-t0)<br/>
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_13:50:59.png" alt="drawing" width="300" height="300"/><br/>
+(1).. Meaning:<br/>
+1).. Data is biased to the the left region (small values)<br/>
 
 #### Analyze label data
 (1) Frequent distribution of train label data  
