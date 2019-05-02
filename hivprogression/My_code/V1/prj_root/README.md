@@ -1,6 +1,7 @@
 
 #### Introduction
-- Problem: Image classification which has multiple labels to single input data  
+- Problem: predict and classify 0 or 1 by training predicting model using HIV related data
+- Competition page: https://www.kaggle.com/c/hivprogression/data  
 - There are 28 proteins in labels  
 - Multiple proteins can be shown in one image  
 - 28 proteins have different shapes
@@ -37,13 +38,11 @@ https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image
 (1) F1 scores for multi-label & multi-class problem  
 https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image-classification/src/metrics/metrics_module.py#L2
 
-#### Visualize RGBY images  
-(1) RGB, R channel, G channel, B channel, Y channel but shown as R channel  
-<img src="./img_out/RGBY_visualization/rgb_img_0.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/r_img_0.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/g_img_0.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/b_img_0.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/y_img_0.png" alt="drawing" width="160"/>
+#### Visualize train data  
+1.. Correlation between factors  
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_10%3A49%3A06.png" alt="drawing" width="600" height="600"/>  
 
-<img src="./img_out/RGBY_visualization/rgb_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/r_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/g_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/b_img_1.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/y_img_1.png" alt="drawing" width="160"/>
-
-<img src="./img_out/RGBY_visualization/rgb_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/r_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/g_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/b_img_2.png" alt="drawing" width="160"/> <img src="./img_out/RGBY_visualization/y_img_2.png" alt="drawing" width="160"/>
+(1) Meaning: there are nagative and positive relationships between factors.  
 
 (2) Code: /src/utils_preanalyze_data/utils_preanalyze_data_module.py
 visualize_images(args)
