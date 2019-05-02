@@ -63,8 +63,8 @@ except for periodic low values like 1 and 2<br/>
 
 5.. Frequence distribution of train data (CD4-t0)<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_13%3A50%3A59.png" alt="drawing" width="300" height="300"/><br/>
-  (1).. Meaning:<br/>
-    1).. Data is biased to the the left region (small values)<br/>
+__(1).. Meaning:<br/>
+____1).. Data is biased to the the left region (small values)<br/>
 
 #### Analyze label data
 (1) Frequent distribution of train label data  
