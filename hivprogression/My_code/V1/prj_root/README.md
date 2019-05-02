@@ -1,7 +1,7 @@
 
 #### Introduction
 - Problem: predict and classify 0 or 1 by training predicting model using HIV related data
-- Competition page: https://www.kaggle.com/c/hivprogression/data  
+- Competition page: https://www.kaggle.com/c/hivprogression/  
 - There are 28 proteins in labels  
 - Multiple proteins can be shown in one image  
 - 28 proteins have different shapes
