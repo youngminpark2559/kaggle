@@ -4,7 +4,7 @@
 - Problem: predict (or classify) 0 or 1 against given HIV related feature data
 - To do that, you need to train classifier by given train dataset
 
-# ================================================================================
+================================================================================
 #### Explanation on data
 - Column-1: Patient's ID
 - Column-2: Response status to the treatment ("1": improved (got better), "0": otherwise)
@@ -13,7 +13,7 @@
 - Column-5: "viral load severity" at the beginning of therapy (log-10 units)
 - Column-6: CD4 (cluster structures on the surface of immune cells such as T helper cells, monocytes, macrophages) count at the beginning of therapy
 
-# ================================================================================
+================================================================================
 #### Libraries
 - Python 3.6
 - PyTorch 1.0.1.post2
@@ -22,7 +22,7 @@
 - Scikit-Learn
 - And others which you can install whenever you run into unmet-dependencies
 
-# ================================================================================
+================================================================================
 #### Used techniques
 - `K-Fold Cross Train and Validation`  
 (1) Devide paths into 3 folds (3 train folds, 3 validation folds)  
@@ -34,7 +34,7 @@ https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image
 (1) F1 scores for multi-label & multi-class problem  
 https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image-classification/src/metrics/metrics_module.py#L2
 
-# ================================================================================
+================================================================================
 #### Visualize train data  
 1.. Correlation between factors<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_10%3A49%3A06.png" alt="drawing" width="300" height="300"/><br/>
@@ -67,7 +67,7 @@ https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image
 Distribution doesn't change.<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Process_data/2019_05_02_20%3A56%3A06.png" alt="drawing" width="300" height="300"/><br/>
 
-# ================================================================================
+================================================================================
 #### Train result  
 1.. Support Vector Machine classifier (Scikit-Learn)<br/>
 
