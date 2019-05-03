@@ -159,7 +159,7 @@ class Non tumor (neg)       0.96      0.99      0.98       249
 
             micro avg       0.96      0.96      0.96       307
             macro avg       0.96      0.92      0.94       307
-          weighted avg       0.96      0.96      0.96       307
+         weighted avg       0.96      0.96      0.96       307
 
 accuracy_score 0.9641693811074918
 precision_score 0.9607843137254902
@@ -181,7 +181,7 @@ class Non tumor (neg)       0.96      1.00      0.98       243
 
             micro avg       0.96      0.96      0.96       306
             macro avg       0.98      0.91      0.94       306
-          weighted avg       0.97      0.96      0.96       306
+         weighted avg       0.97      0.96      0.96       306
 
 accuracy_score 0.9640522875816994
 precision_score 1.0
