@@ -74,11 +74,11 @@ Distribution doesn't change.<br/>
 ```
 @ 1-Fold evaluation
 
-1 Binary confusion matrix
+Confusion matrix
 [[249   0]
  [ 39  19]]
 
-2 report
+Report
 
                         precision    recall  f1-score   support
 
@@ -89,19 +89,19 @@ class Non tumor (neg)       0.86      1.00      0.93       249
             macro avg       0.93      0.66      0.71       307
          weighted avg       0.89      0.87      0.85       307
 
-3 accuracy_score 0.8729641693811075
-4 precision_score 1.0
-5 recall_score 0.3275862068965517
-6 f1_score 0.49350649350649356
+Accuracy_score 0.8729641693811075
+Precision_score 1.0
+Recall_score 0.3275862068965517
+F1_score 0.49350649350649356
 
 ================================================================================
 @ 2-Fold evaluation
 
-1 Binary confusion matrix
+Confusion matrix 
 [[243   0]
  [ 42  21]]
 
-2 report
+Report
                        precision    recall  f1-score   support
 
 class Non tumor (neg)       0.85      1.00      0.92       243
@@ -111,19 +111,19 @@ class Non tumor (neg)       0.85      1.00      0.92       243
             macro avg       0.93      0.67      0.71       306
          weighted avg       0.88      0.86      0.83       306
 
-3 accuracy_score 0.8627450980392157
-4 precision_score 1.0
-5 recall_score 0.3333333333333333
-6 f1_score 0.5
+Accuracy_score 0.8627450980392157
+Precision_score 1.0
+Recall_score 0.3333333333333333
+F1_score 0.5
 
 ================================================================================
 @ 3-Fold evaluation
 
-1 Binary confusion matrix 
+Confusion matrix 
 [[241   0]
  [ 65   0]]
 
-2 report
+Report
                        precision    recall  f1-score   support
 
 class Non tumor (neg)       0.79      1.00      0.88       241
@@ -133,10 +133,83 @@ class Non tumor (neg)       0.79      1.00      0.88       241
             macro avg       0.39      0.50      0.44       306
          weighted avg       0.62      0.79      0.69       306
 
-3 accuracy_score 0.7875816993464052
-4 precision_score 0.0
-5 recall_score 0.0
-6 f1_score 0.0
+Accuracy_score 0.7875816993464052
+Precision_score 0.0
+Recall_score 0.0
+F1_score 0.0
 ```
-7 ROC curve<br/>
+
+ROC curve<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A33.png" alt="drawing" width="200" height="200"/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A46.png" alt="drawing" width="200" height="200"/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A56.png" alt="drawing" width="200" height="200"/><br/>
+
+================================================================================
+2.. XGBoost classifier<br/>
+
+```
+@ 1-Fold evaluation
+
+b_c_mat 
+[[247   2]
+  [  9  49]]
+
+report
+                        precision    recall  f1-score   support
+class Non tumor (neg)       0.96      0.99      0.98       249
+    class Tumor (pos)       0.96      0.84      0.90        58
+
+            micro avg       0.96      0.96      0.96       307
+            macro avg       0.96      0.92      0.94       307
+          weighted avg       0.96      0.96      0.96       307
+
+accuracy_score 0.9641693811074918
+precision_score 0.9607843137254902
+recall_score 0.8448275862068966
+f1_score 0.8990825688073395
+
+================================================================================
+@ 2-Fold evaluation
+
+b_c_mat
+[[243   0]
+  [ 11  52]]
+
+report
+                        precision    recall  f1-score   support
+
+class Non tumor (neg)       0.96      1.00      0.98       243
+    class Tumor (pos)       1.00      0.83      0.90        63
+
+            micro avg       0.96      0.96      0.96       306
+            macro avg       0.98      0.91      0.94       306
+          weighted avg       0.97      0.96      0.96       306
+
+accuracy_score 0.9640522875816994
+precision_score 1.0
+recall_score 0.8253968253968254
+f1_score 0.9043478260869565
+
+================================================================================
+@ 3-Fold evaluation
+
+b_c_mat
+[[227  14]
+  [ 44  21]]
+
+report
+                        precision    recall  f1-score   support
+
+class Non tumor (neg)       0.84      0.94      0.89       241
+    class Tumor (pos)       0.60      0.32      0.42        65
+
+            micro avg       0.81      0.81      0.81       306
+            macro avg       0.72      0.63      0.65       306
+          weighted avg       0.79      0.81      0.79       306
+
+accuracy_score 0.8104575163398693
+precision_score 0.6
+recall_score 0.3230769230769231
+f1_score 0.42
+```
+
+ROC curve<br/>
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_08%3A21%3A05.png" alt="drawing" width="200" height="200"/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_08%3A21%3A20.png" alt="drawing" width="200" height="200"/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_08%3A21%3A32.png" alt="drawing" width="200" height="200"/><br/>
