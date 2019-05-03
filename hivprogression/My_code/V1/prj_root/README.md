@@ -1,43 +1,40 @@
 
 #### Introduction
-- Problem: predict and classify 0 or 1 by training predicting model using HIV related data
-- Competition page: https://www.kaggle.com/c/hivprogression/  
-- There are 28 proteins in labels  
-- Multiple proteins can be shown in one image  
-- 28 proteins have different shapes
-- Multiple labels means one image can have multiple labels like [one_image,[protein_label1,protein_label2,protein_label3]]  
-- And dataset is quite imbalance which means, for example, protein_label1 shows up very frequently, protein_label2 shows very rarely  
-- You should manage that imbalance in the process of training
+- Page: https://www.kaggle.com/c/hivprogression/
+- Problem: predict (or classify) 0 or 1 against given HIV related feature data
+- To do that, you need to train classifier by given train dataset
 
+# ================================================================================
+#### Explanation on data
+- Column-1: Patient's ID
+- Column-2: Response status to the treatment ("1": improved (got better), "0": otherwise)
+- Column-3: DNA sequence to create protease
+- Column-4: DNA sequence to create reverse transciptase
+- Column-5: "viral load severity" at the beginning of therapy (log-10 units)
+- Column-6: CD4 (cluster structures on the surface of immune cells such as T helper cells, monocytes, macrophages) count at the beginning of therapy
+
+# ================================================================================
 #### Libraries
 - Python 3.6
 - PyTorch 1.0.1.post2
 - CUDA V10.0.130
 - CuDNN v7.4
+- Scikit-Learn
 - And others which you can install whenever you run into unmet-dependencies
 
+# ================================================================================
 #### Used techniques
-- `CBAM attention modules` which help the neural network to see better place (where) and better things (what) for target class  
-https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/networks/networks.py#L864  
-https://github.com/youngminpark2559/kaggle/blob/master/histopathologic-cancer-detection/src/networks/cbam.py
-
-You can check my summaries and comments if you want to briefly see it  
-https://youngminpark2559.github.io/ml_cv_p/CBAM_Convolutional_Block_Attention_Module/paper_summary.html  
-
 - `K-Fold Cross Train and Validation`  
 (1) Devide paths into 3 folds (3 train folds, 3 validation folds)  
 https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image-classification/src/train/train_by_transfer_learning_using_resnet.py#L79
 (2) Loop over the 3 folds  
 https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image-classification/src/train/train_by_transfer_learning_using_resnet.py#L109
 
-- `Focal Loss`  
-(1) Code  
-https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image-classification/src/loss_functions/loss_functions_module.py#L4
-
 - `Metrics`  
 (1) F1 scores for multi-label & multi-class problem  
 https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image-classification/src/metrics/metrics_module.py#L2
 
+# ================================================================================
 #### Visualize train data  
 1.. Correlation between factors<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_train_data/2019_05_02_10%3A49%3A06.png" alt="drawing" width="300" height="300"/><br/>
@@ -70,10 +67,10 @@ https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image
 Distribution doesn't change.<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Process_data/2019_05_02_20%3A56%3A06.png" alt="drawing" width="300" height="300"/><br/>
 
+# ================================================================================
 #### Train result  
 1.. Support Vector Machine classifier (Scikit-Learn)<br/>
 
-================================================================================
 ```
 @ 1-Fold evaluation
 
