@@ -142,7 +142,7 @@ F1_score 0.0
 ROC curve<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A33.png" alt="drawing" width="200" height="200"/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A46.png" alt="drawing" width="200" height="200"/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A56.png" alt="drawing" width="200" height="200"/><br/>
 
-================================================================================
+================================================================================<br/>
 2.. XGBoost classifier<br/>
 
 ```
@@ -203,7 +203,7 @@ class Non tumor (neg)       0.84      0.94      0.89       241
 
             micro avg       0.81      0.81      0.81       306
             macro avg       0.72      0.63      0.65       306
-          weighted avg       0.79      0.81      0.79       306
+         weighted avg       0.79      0.81      0.79       306
 
 accuracy_score 0.8104575163398693
 precision_score 0.6
