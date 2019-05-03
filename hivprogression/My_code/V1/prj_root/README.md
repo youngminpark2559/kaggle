@@ -148,11 +148,11 @@ ROC curve<br/>
 ```
 @ 1-Fold evaluation
 
-b_c_mat 
+Confusion matrix  
 [[247   2]
-  [  9  49]]
+ [  9  49]]
 
-report
+Report
                         precision    recall  f1-score   support
 class Non tumor (neg)       0.96      0.99      0.98       249
     class Tumor (pos)       0.96      0.84      0.90        58
@@ -161,19 +161,19 @@ class Non tumor (neg)       0.96      0.99      0.98       249
             macro avg       0.96      0.92      0.94       307
          weighted avg       0.96      0.96      0.96       307
 
-accuracy_score 0.9641693811074918
-precision_score 0.9607843137254902
-recall_score 0.8448275862068966
-f1_score 0.8990825688073395
+Accuracy_score 0.9641693811074918
+Precision_score 0.9607843137254902
+Recall_score 0.8448275862068966
+F1_score 0.8990825688073395
 
 ================================================================================
 @ 2-Fold evaluation
 
-b_c_mat
+Confusion matrix 
 [[243   0]
-  [ 11  52]]
+ [ 11  52]]
 
-report
+Report
                         precision    recall  f1-score   support
 
 class Non tumor (neg)       0.96      1.00      0.98       243
@@ -183,19 +183,19 @@ class Non tumor (neg)       0.96      1.00      0.98       243
             macro avg       0.98      0.91      0.94       306
          weighted avg       0.97      0.96      0.96       306
 
-accuracy_score 0.9640522875816994
-precision_score 1.0
-recall_score 0.8253968253968254
-f1_score 0.9043478260869565
+Accuracy_score 0.9640522875816994
+Precision_score 1.0
+Recall_score 0.8253968253968254
+F1_score 0.9043478260869565
 
 ================================================================================
 @ 3-Fold evaluation
 
-b_c_mat
+Confusion matrix 
 [[227  14]
-  [ 44  21]]
+ [ 44  21]]
 
-report
+Report
                         precision    recall  f1-score   support
 
 class Non tumor (neg)       0.84      0.94      0.89       241
@@ -205,10 +205,10 @@ class Non tumor (neg)       0.84      0.94      0.89       241
             macro avg       0.72      0.63      0.65       306
          weighted avg       0.79      0.81      0.79       306
 
-accuracy_score 0.8104575163398693
-precision_score 0.6
-recall_score 0.3230769230769231
-f1_score 0.42
+Accuracy_score 0.8104575163398693
+Precision_score 0.6
+Recall_score 0.3230769230769231
+F1_score 0.42
 ```
 
 ROC curve<br/>
