@@ -66,7 +66,7 @@ https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image
 ....1) Data is biased to the the left region (small values)<br/>
 
 #### Analyze label data
-1. Normalize CD4 data from [0,1200] scale to [0,1] scale<br/>
+1.. Normalize CD4 data from [0,1200] scale to [0,1] scale<br/>
 Distribution doesn't change.<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Process_data/2019_05_02_20%3A56%3A06.png" alt="drawing" width="300" height="300"/><br/>
 
