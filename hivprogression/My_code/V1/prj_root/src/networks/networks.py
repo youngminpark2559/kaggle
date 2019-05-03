@@ -3,19 +3,6 @@
 # rm e.l && python networks.py 2>&1 | tee -a e.l && code e.l
 
 # ================================================================================
-import torch
-import torch.nn as nn
-from torch.nn import init
-import torch.nn.functional as F
-import torch.optim as optim
-from torch.optim import lr_scheduler
-from torch.autograd import Variable
-from torch.utils.data import Dataset, DataLoader
-import torchvision
-import torchvision.transforms as transforms
-from torchvision import datasets,models,transforms
-from pytorchcv.model_provider import get_model as ptcv_get_model
-
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -30,7 +17,23 @@ import natsort
 from PIL import Image
 from skimage.transform import resize
 import scipy.misc
+from sklearn import svm
 
+# ================================================================================
+import torch
+import torch.nn as nn
+from torch.nn import init
+import torch.nn.functional as F
+import torch.optim as optim
+from torch.optim import lr_scheduler
+from torch.autograd import Variable
+from torch.utils.data import Dataset, DataLoader
+import torchvision
+import torchvision.transforms as transforms
+from torchvision import datasets,models,transforms
+from pytorchcv.model_provider import get_model as ptcv_get_model
+
+# ================================================================================
 from src.networks import cbam as cbam
 
 # ================================================================================
@@ -993,3 +996,15 @@ class Pretrained_ResNet50_CBAM(nn.Module):
     # torch.Size([40, 1])
 
     return x
+
+# ================================================================================
+class Scikit_Learn_SVM():
+  def __init__(self):
+    SVM_clf=svm.SVC(gamma='scale')
+    return SVM_clf
+
+# ================================================================================
+
+
+
+

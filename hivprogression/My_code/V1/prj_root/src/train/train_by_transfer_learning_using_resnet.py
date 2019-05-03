@@ -23,7 +23,9 @@ import gc
 import Augmentor
 import traceback
 import subprocess
+import csv
 
+# ================================================================================
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -68,15 +70,28 @@ def train(args):
   # ================================================================================
   text_file_instance=text_file_path_api_module.Path_Of_Text_Files(args)
 
-  txt_of_image_data=text_file_instance.image_data
-  txt_of_label_data=text_file_instance.label_data
-  # print("txt_of_image_data",txt_of_image_data)
-  # print("txt_of_label_data",txt_of_label_data)
-  # /mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/Path_of_train_images.txt
-  # /mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train.csv
+  txt_of_train_data=text_file_instance.train_data
+  # print("txt_of_train_data",txt_of_train_data)
+  # /mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train_csv_path.txt
 
   # ================================================================================
-  train_k,vali_k,train_lbl_k,vali_lbl_k=utils_data.get_k_folds(txt_of_image_data,txt_of_label_data)
+  contents_of_txt,num_line=utils_common.return_path_list_from_txt(txt_of_train_data)
+  # print("contents_of_txt",contents_of_txt)
+  # ['/mnt/1T-5e7/mycodehtml/prac_data_science/kaggle/hivprogression/My_code/Data/training_data.csv']
+  
+  # ================================================================================
+  train_data_df=pd.read_csv(contents_of_txt[0],encoding='utf8')
+
+  train_data_df=train_data_df.dropna()
+  # print("train_data_df",train_data_df.shape)
+  # (920, 6)
+
+  train_data_wo_id_df=train_data_df.iloc[:,1:]
+  # print("train_data_wo_id_df",train_data_wo_id_df.shape)
+  # (920, 5)
+
+  # ================================================================================
+  train_k,vali_k=utils_data.get_k_folds(train_data_wo_id_df)
 
   # ================================================================================
   # c loss_list: list which will stores loss values to plot loss
@@ -86,6 +101,8 @@ def train(args):
   # ================================================================================
   # c model_api_instance: instance of model API
   model_api_instance=model_api_module.Model_API_class(args)
+  # print("model_api_instance",model_api_instance)
+  # <src.api_model.model_api_module.Model_API_class object at 0x7fb305557b00>
 
   # ================================================================================
   # # @ Test Grad CAM

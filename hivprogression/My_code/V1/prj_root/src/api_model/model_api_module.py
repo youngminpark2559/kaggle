@@ -20,7 +20,11 @@ class Model_API_class():
     self.lr=0.0001
     self.weight_decay=0.1
     self.args=args
-    self.gen_net,self.optimizer=self.net_generator()
+    
+    if self.args.network_type=="Scikit_Learn_SVM":
+      self.gen_net=self.net_generator()
+    else:
+      self.gen_net,self.optimizer=self.net_generator()
 
   def net_generator(self):
 
@@ -41,9 +45,17 @@ class Model_API_class():
         gen_net=networks.ResNet50_CBAM(layers=[3,4,6,3],network_type="Pathology",num_classes=28,att_type="CBAM").cuda()
       elif self.args.network_type=="Pretrained_ResNet50_CBAM":
         gen_net=networks.Pretrained_ResNet50_CBAM().cuda()
+      elif self.args.network_type=="Scikit_Learn_SVM":
+        gen_net=networks.Scikit_Learn_SVM()
       else:
         Print("You didn't specify correct network type")
       
+      # ================================================================================
+      if self.args.network_type=="Scikit_Learn_SVM":
+        return gen_net
+      else:
+        pass
+
       # ================================================================================
       # @ Configure multiple GPUs
 

@@ -3,14 +3,14 @@ import sys,os,copy,argparse
 class Path_Of_Text_Files():
   def __init__(self,args):
     # dir_where_text_file_for_image_paths_is_in
-    # /mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data
+    # /mnt/1T-5e7/mycodehtml/prac_data_science/kaggle/hivprogression/My_code/Data
 
     # ================================================================================
-    # /mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/Path_of_train_images.txt
+    # /mnt/1T-5e7/mycodehtml/prac_data_science/kaggle/hivprogression/My_code/Data/train_csv_path.txt
 
-    self.image_data=args.dir_where_text_file_for_image_paths_is_in+"/Path_of_train_images.txt"
+    self.train_data=args.dir_where_text_file_for_image_paths_is_in+"/train_csv_path.txt"
 
     # ================================================================================
-    # /mnt/1T-5e7/mycodehtml/bio_health/Kaggle/human-protein-atlas-image-classification/Data/train.csv
+    # /mnt/1T-5e7/mycodehtml/prac_data_science/kaggle/hivprogression/My_code/Data/test_csv_path.txt
 
-    self.label_data=args.dir_where_text_file_for_image_paths_is_in+"/train.csv"
+    self.test_data=args.dir_where_text_file_for_image_paths_is_in+"/test_csv_path.txt"

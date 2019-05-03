@@ -99,14 +99,16 @@ def split_label_data(loaded_label_data_sorted_list,ninety_percent_portion):
   return loaded_label_data_trn,loaded_label_data_vali,num_of_loaded_label_data_trn,num_of_loaded_label_data_vali
 
 # ================================================================================
-def split_by_k_folds(path_of_protein_imgs_li):
+def split_by_k_folds(train_data_wo_id_df):
   # K-Fold validation
   # - You split dataset into K chunks
   # - If you use 3-Fold validation like this chunk1/chunk2/chunk3,
   # (1) Train: chunk1/chunk2, validation: chunk3
   # (2) Train: chunk1/chunk3, validation: chunk2
   # (3) Train: chunk2/chunk3, validation: chunk1
+
   # - K-Fold validation is advantageous when you have imbalance dataset
+  
   # - Code
   # from sklearn.model_selection import RepeatedKFold
   # splitter = RepeatedKFold(n_splits=3, n_repeats=1, random_state=0)
@@ -118,27 +120,34 @@ def split_by_k_folds(path_of_protein_imgs_li):
   
   train_index_set=[]
   validation_index_set=[]
-  for train_idx,vali_idx in splitter.split(path_of_protein_imgs_li):
+  for train_idx,vali_idx in splitter.split(train_data_wo_id_df):
+    
     train_index_set.append(train_idx)
-    validation_index_set.append(vali_idx)
     # print("train_idx",train_idx)
+    # [  0   3   4   6   7   9  11  13  15  16  17  19  21  22  23  24  25  26
+    
+    validation_index_set.append(vali_idx)
     # print("vali_idx",vali_idx)
+    # [  1   2   5   8  10  12  14  18  20  27  30  31  34  37  39  40  45  48
 
     # print("train_idx",len(train_idx))
-    # print("vali_idx",len(vali_idx))
+    # print("train_idx",len(vali_idx))
+    # 613
+    # 307
   
-  # [    1     2     3 ... 31063 31064 31065]
-  # [    0     4     6 ... 31069 31070 31071]
-  # 20714
-  # 10358
-  # [    0     4     6 ... 31069 31070 31071]
-  # [    1     2     3 ... 31060 31061 31065]
-  # 20715
-  # 10357
-  # [    0     1     2 ... 31069 31070 31071]
-  # [   10    11    13 ... 31062 31063 31064]
-  # 20715
-  # 10357
+  # ================================================================================
+  # print("train_index_set",len(train_index_set))
+  # 3
+  
+  # print("validation_index_set",len(validation_index_set))
+  # 3
+
+  # print("train_index_set",train_index_set[0])
+  # print("train_index_set",len(train_index_set[0]))
+  # print("train_index_set",len(train_index_set[1]))
+  # print("train_index_set",len(train_index_set[2]))
+
+  # print("validation_index_set",len(validation_index_set))
 
   return train_index_set,validation_index_set
 
@@ -252,6 +261,26 @@ def one_hot_label_vali(batch_size,label_values):
   return oh_label_arr.astype("float16")
 
 # ================================================================================
+def normalize_1D_arr(arr):
+  min_val=np.min(arr)
+  # print("min_val",min_val)
+  # 0
+
+  max_val=np.max(arr)
+  # print("max_val",max_val)
+  # 1219
+
+  norm_arr=(arr-min_val)/(max_val-min_val)
+  # print("norm_arr",norm_arr)
+  # [0.11894995898277276 0.1689909762100082 0.4692370795734208
+
+  norm_arr=norm_arr.astype("float16")
+  # print("norm_arr",norm_arr)
+  # [1.1896e-01 1.6895e-01 4.6924e-01 1.8127e-01 3.1494e-01 1.5100e-01
+
+  return norm_arr
+
+# ================================================================================
 def divisorGenerator(n):
     large_divisors=[]
     for i in range(1,int(math.sqrt(n)+1)):
@@ -262,3 +291,4 @@ def divisorGenerator(n):
     for divisor in reversed(large_divisors):
         yield int(divisor)
 # list(divisorGenerator(1024))
+
