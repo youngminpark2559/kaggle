@@ -70,36 +70,76 @@ https://github.com/youngminpark2559/kaggle/blob/master/human-protein-atlas-image
 Distribution doesn't change.<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V_0002/prj_root/img_out/Process_data/2019_05_02_20%3A56%3A06.png" alt="drawing" width="300" height="300"/><br/>
 
-
-#### Train workflow  
-```
-3fold_train_img_path,3folds_train_label,3folds,validation_path,3folds_validation_label=\
-   get_3_folds_of_train_and_validation_path(entire_path)
-
-for one_k in range(3):
-  for one_epoch in range(all_epochs):
-    for one_batch in range(all_batch):
-      prediction=network(input)
-      loss=focal_loss(prediction,label)
-      loss.backward()
-      optimizer.step()
-
-  for vali_idx,validation_data in enumerate(validation_dataloader):
-    with torch.no_grad():
-      prediction=network(input)
-      f1_score_value=f1_score(prediction,label)
-```
-
-
 #### Train result  
-(1) Decrease of loss value  
-1) Visualization  
-<img src="./img_out/Result_scores/loss.png" alt="drawing" width="600" height="300"/>  
+1.. Support Vector Machine classifier (Scikit-Learn)<br/>
 
-(2) F1 scores  
-1) Visualization  
-<img src="./img_out/Result_scores/f1_score.png" alt="drawing" width="600" height="300"/>  
+================================================================================
+@.. 1-Fold evaluation
 
-#### Backpropagation, autograd, gradient in PyTorch
-- If you want to read above topics which are relevant to Grad CAM which deals with gradient values, check this out  
-https://youngminpark2559.github.io/prac_ml/pytorch/kykim/002_autograd_and_Variable.html
+```
+1 Binary confusion matrix
+[[249   0]
+ [ 39  19]]
+
+2 report
+
+                        precision    recall  f1-score   support
+
+class Non tumor (neg)       0.86      1.00      0.93       249
+    class Tumor (pos)       1.00      0.33      0.49        58
+
+            micro avg       0.87      0.87      0.87       307
+            macro avg       0.93      0.66      0.71       307
+         weighted avg       0.89      0.87      0.85       307
+
+3 accuracy_score 0.8729641693811075
+4 precision_score 1.0
+5 recall_score 0.3275862068965517
+6 f1_score 0.49350649350649356
+
+================================================================================
+@ 2-Fold evaluation
+
+1 Binary confusion matrix
+[[243   0]
+ [ 42  21]]
+
+2 report
+                       precision    recall  f1-score   support
+
+class Non tumor (neg)       0.85      1.00      0.92       243
+    class Tumor (pos)       1.00      0.33      0.50        63
+
+            micro avg       0.86      0.86      0.86       306
+            macro avg       0.93      0.67      0.71       306
+         weighted avg       0.88      0.86      0.83       306
+
+3 accuracy_score 0.8627450980392157
+4 precision_score 1.0
+5 recall_score 0.3333333333333333
+6 f1_score 0.5
+
+================================================================================
+@ 3-Fold evaluation
+
+1 Binary confusion matrix 
+[[241   0]
+ [ 65   0]]
+
+2 report
+                       precision    recall  f1-score   support
+
+class Non tumor (neg)       0.79      1.00      0.88       241
+    class Tumor (pos)       0.00      0.00      0.00        65
+
+            micro avg       0.79      0.79      0.79       306
+            macro avg       0.39      0.50      0.44       306
+         weighted avg       0.62      0.79      0.69       306
+
+3 accuracy_score 0.7875816993464052
+4 precision_score 0.0
+5 recall_score 0.0
+6 f1_score 0.0
+```
+7 ROC curve<br/>
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A33.png" alt="drawing" width="300" height="200"/><br/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A46.png" alt="drawing" width="200" height="200"/><br/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A56.png" alt="drawing" width="200" height="200"/><br/>
