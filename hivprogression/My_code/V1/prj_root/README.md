@@ -74,9 +74,9 @@ Distribution doesn't change.<br/>
 1.. Support Vector Machine classifier (Scikit-Learn)<br/>
 
 ================================================================================
-@.. 1-Fold evaluation
-
 ```
+@ 1-Fold evaluation
+
 1 Binary confusion matrix
 [[249   0]
  [ 39  19]]
@@ -142,4 +142,4 @@ class Non tumor (neg)       0.79      1.00      0.88       241
 6 f1_score 0.0
 ```
 7 ROC curve<br/>
-<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A33.png" alt="drawing" width="200" height="200"/><br/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A46.png" alt="drawing" width="200" height="200"/><br/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A56.png" alt="drawing" width="200" height="200"/><br/>
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A33.png" alt="drawing" width="200" height="200"/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A46.png" alt="drawing" width="200" height="200"/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_07%3A19%3A56.png" alt="drawing" width="200" height="200"/><br/>
