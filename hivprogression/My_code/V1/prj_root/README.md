@@ -213,3 +213,11 @@ F1_score 0.42
 
 ROC curve<br/>
 <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_08%3A21%3A05.png" alt="drawing" width="200" height="200"/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_08%3A21%3A20.png" alt="drawing" width="200" height="200"/> <img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_04_08%3A21%3A32.png" alt="drawing" width="200" height="200"/><br/>
+
+================================================================================<br/>
+To do:<br/>
+
+1.. Perform one-hot encoding on DNA sequence data<br/>
+2.. Normalize CD4 and VL data into [0,1] scale?<br/>
+3.. I performed K-fold train&evaluaion to resolve imbalance of label<br/>
+This time I will perform upsample on smaller labeled data<br/>
