@@ -244,6 +244,6 @@ ROC curve<br/>
 ================================================================================<br/>
 To do:<br/>
 
-[checkbox:unchecked] 1.. Normalize CD4 and VL data into [0,1] scale?<br/>
-[checkbox:checked] 2.. I performed K-fold train&evaluaion to resolve imbalance of label<br/>
+[ ] 1.. Normalize CD4 and VL data into [0,1] scale?<br/>
+[v] 2.. I performed K-fold train&evaluaion to resolve imbalance of label<br/>
 This time I will perform upsample on smaller labeled data<br/>
