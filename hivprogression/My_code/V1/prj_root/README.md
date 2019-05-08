@@ -238,7 +238,7 @@ F1_score 0.8844884488448843
 ```
 
 ROC curve<br/>
-<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_08_21:47:25.png" alt="drawing" width="200" height="200"/>
+<img src="https://raw.githubusercontent.com/youngminpark2559/kaggle/master/hivprogression/My_code/V1/prj_root/img_out/Analyze_result/2019_05_08_21%3A47%3A25.png" alt="drawing" width="200" height="200"/>
 ```
 
 ================================================================================<br/>
