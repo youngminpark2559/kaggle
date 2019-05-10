@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+   <HEAD>
+      <TITLE>My first HTML document</TITLE>
+      <style rel="stylesheet" type="text/css">
+body {
+ font-size: 20px;
+ 
+ margin-top: 50px;
+    margin-bottom: 50px;
+    margin-right: 80px;
+    margin-left: 100px;
+    
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-right: 80px;
+    padding-left: 80px;
+    
+    line-height:35px;
+}
+img {
+ width:900px;
+}
+</style>
+      <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    "HTML-CSS" : {
+        availableFonts : ["STIX"],
+        preferredFont : "STIX",
+        webFont : "STIX-Web",
+        imageFont : null
+    }
+});
+</script>
+     <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js" type="text/javascript">    
+    MathJax.Hub.Config({
+        HTML: ["input/TeX","output/HTML-CSS"],
+        TeX: { extensions: ["AMSmath.js","AMSsymbols.js"], 
+               equationNumbers: { autoNumber: "AMS" } },
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX","output/HTML-CSS"],
+        tex2jax: { inlineMath: [ ['$$$','$$$'] ],
+                   displayMath: [ ['$$$$','$$$$'] ],
+                   processEscapes: true },
+        "HTML-CSS": { availableFonts: ["TeX"],
+                      linebreaks: { automatic: true } }
+    });
+</script>
+   </HEAD>
+   <BODY>
+<xmp>
+
+* Introduction
+- Competetion page: https://www.kaggle.com/c/bacteria-classification-at-the-genus-level
+- Problem: multi class classification
+- Data: Bacteria images + corresponding 4 class labels
+- Goal: Train a classifier model using train dataset. Test the trained classifier by using test data
+
+================================================================================
+* Explanation on data
+- 606 number of bacteria train images
+- Sample train bacteria images
+/mnt/1T-5e7/mycodehtml/bio_health/Bacteria/bacteria-classification-at-the-genus-level/Data/bacteria-classification-at-the-genus-level/Train_Images/0004.png
+/mnt/1T-5e7/mycodehtml/bio_health/Bacteria/bacteria-classification-at-the-genus-level/Data/bacteria-classification-at-the-genus-level/Train_Images/0005.png
+/mnt/1T-5e7/mycodehtml/bio_health/Bacteria/bacteria-classification-at-the-genus-level/Data/bacteria-classification-at-the-genus-level/Train_Images/0014.png
+- Bacteria classes: ecoli, salmonella, staphylococus, listeria
+
+================================================================================
+* Libraries
+- Python 3.6
+- PyTorch 1.0.1.post2
+- CUDA V10.0.130
+- CuDNN v7.4
+- Scikit-Learn
+- And others which you can install whenever you run into unmet-dependencies
+
+================================================================================
+* Train information
+- Tested epochs: 30
+- Batch: 30
+- Input image size: resized into (224,224)
+- Network: Resnet with CBAM attention modules
+- Loss function: Cross Entropy loss function
+
+================================================================================
+* Result
+- Accuracy
+  (1) y_true
+[array([3, 1, 2, 0, 3]) array([2, 2, 2, 1, 3]) array([2, 1, 0, 1, 0])
+ array([2, 2, 1, 3, 0]) array([0, 3, 1, 1, 1]) array([0, 0, 0, 2, 1])
+ array([2, 1, 2, 2, 3]) array([0, 1, 2, 0, 3]) array([2, 0, 2, 0, 3])
+ array([1, 2, 2, 3, 0]) array([1, 2, 0, 0, 0]) array([3, 0, 3, 0, 0])
+ array([2])]
+ 
+  (2) y_pred
+[array([3, 1, 2, 0, 3]) array([2, 2, 2, 1, 3]) array([2, 1, 0, 1, 0])
+ array([2, 2, 1, 3, 0]) array([0, 3, 1, 1, 1]) array([0, 0, 0, 2, 1])
+ array([2, 0, 2, 2, 3]) array([0, 1, 2, 0, 3]) array([2, 0, 2, 0, 3])
+ array([1, 2, 2, 3, 0]) array([1, 2, 0, 0, 0]) array([3, 0, 3, 0, 0])
+ array([0])]
+
+  (3) Accuracy
+0.9672131147540983
+
+================================================================================
+* To do
+[--] 1. Test the trained classifier by using full test data
+[--] 2. Make a submission and see the actual inference result
+[--] 3. Implement other metrics (F1 score, precision, recall)
+It was not simple to use metrics which are provided from scikit-leaarn,
+because I guess I'm dealing with multi class problem instead of binary classification
+So, I'm manually implementing metrics by using their fomulars.
+      
+</xmp>
+   </BODY>
+</HTML>
